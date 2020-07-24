@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/books"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:title="@string/books"/>
+
+    <item
+        android:id="@+id/add"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+        android:title="@string/add"/>
+
+    <item
+        android:id="@+id/wishlist"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:title="@string/wishlist"/>
+</menu>
