@@ -1,51 +1,143 @@
 package ro.twodoors.booknotes.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_books.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.BookAdapter
-
-import ro.twodoors.booknotes.R
-import ro.twodoors.booknotes.api.RetrofitFactory
+import ro.twodoors.booknotes.Injection
+import ro.twodoors.booknotes.databinding.FragmentBooksBinding
+import ro.twodoors.booknotes.ui.BooksLoadStateAdapter
+import ro.twodoors.booknotes.ui.SearchViewModel
 
 /**
  * A simple [Fragment] subclass.
  */
+
 class BooksFragment : Fragment() {
+
+    private lateinit var binding: FragmentBooksBinding
+    private lateinit var viewModel: SearchViewModel
+    private val adapter = BookAdapter()
+
+    private var searchJob: Job? = null
+
+    private fun search(query: String) {
+        // Make sure we cancel the previous job before creating a new one
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.searchBooks(query).collectLatest {
+                adapter.submitData(it)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        searchByTitle("Master the game")
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_books, container, false)
+        binding = FragmentBooksBinding.inflate(layoutInflater)
+        val view = binding.root
+
+        viewModel = ViewModelProvider(this, Injection.provideViewModelFactory()).get(SearchViewModel::class.java)
+        val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+        binding.bookList.addItemDecoration(decoration)
+
+        initAdapter()
+        initSearch()
+        binding.retryButton.setOnClickListener { adapter.retry() }
+
+        return view
     }
 
-        private fun searchByTitle(title: String) {
-        val job = Job()
-        val coroutineScope = CoroutineScope(job + Dispatchers.Main)
-        coroutineScope.launch {
-            val resultList = RetrofitFactory().searchByTitle(title)
-            bookList.adapter = BookAdapter(resultList)
-            //val coverId = resultList.docs?.get(1)?.coverEditionKey
-            //Picasso.get().load("https://covers.openlibrary.org/b/olid/" + coverId +"-L.jpg?default=false").into(imageView)
-            Log.d("BooksFragment", "$resultList")
+    private fun initAdapter() {
+        binding.bookList.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = BooksLoadStateAdapter { adapter.retry() },
+            footer = BooksLoadStateAdapter { adapter.retry() }
+        )
+        adapter.addLoadStateListener { loadState ->
+            // Only show the list if refresh succeeds.
+            binding.bookList.isVisible = loadState.source.refresh is LoadState.NotLoading
+            // Show loading spinner during initial load or refresh.
+            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            // Show the retry state if initial load or refresh fails.
+            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+
+            // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
+            val errorState = loadState.source.append as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error
+                ?: loadState.prepend as? LoadState.Error
+            errorState?.let {
+                Toast.makeText(
+                    activity,
+                    "\uD83D\uDE28 Wooops ${it.error}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+    }
+
+//    private fun initSearch(query: String) {
+    private fun initSearch() {
+        //binding.searchBook.setText(query)
+
+        binding.searchBook.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                updateBookListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+        binding.searchBook.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateBookListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+
+        // Scroll to top when the list is refreshed from network.
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.bookList.scrollToPosition(0) }
         }
     }
 
-    private fun getCoverUrl(coverId: String) : String{
-        return "https://covers.openlibrary.org/b/olid/" + coverId +"-L.jpg?default=false"
+    private fun updateBookListFromInput() {
+        binding.searchBook.text.trim().let {
+            if (it.isNotEmpty()) {
+                search(it.toString())
+            }
+        }
+    }
+
+    companion object {
+        private const val LAST_SEARCH_QUERY: String = "last_search_query"
+        private const val DEFAULT_QUERY = "Master the game"
     }
 
 }
