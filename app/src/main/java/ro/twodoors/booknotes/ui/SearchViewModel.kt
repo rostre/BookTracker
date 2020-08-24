@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 import ro.twodoors.booknotes.data.Repository
 import ro.twodoors.booknotes.model.Book
+import ro.twodoors.booknotes.model.SearchCriteria
 
 
 class SearchViewModel(private val repository: Repository) : ViewModel() {
@@ -14,13 +15,13 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
 
     private var currentSearchResult: Flow<PagingData<Book>>? = null
 
-    fun searchBooks(queryString: String): Flow<PagingData<Book>> {
+    fun searchBooks(queryString: String, searchCriteria: SearchCriteria): Flow<PagingData<Book>> {
         val lastResult = currentSearchResult
         if (queryString == currentQueryValue && lastResult != null) {
             return lastResult
         }
         currentQueryValue = queryString
-        val newResult: Flow<PagingData<Book>> = repository.getSearchResultStream(queryString)
+        val newResult: Flow<PagingData<Book>> = repository.getSearchResultStream(queryString, searchCriteria)
             .cachedIn(viewModelScope)
         currentSearchResult = newResult
         return newResult

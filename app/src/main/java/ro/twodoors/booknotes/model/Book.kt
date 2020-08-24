@@ -35,14 +35,6 @@ data class Book (
     var firstSentence: List<String?>?,
     @SerializedName("has_fulltext")
     var hasFulltext: Boolean?,
-    @SerializedName("ia")
-    var ia: List<String?>?,
-    @SerializedName("ia_box_id")
-    var iaBoxId: List<String?>?,
-    @SerializedName("ia_collection_s")
-    var iaCollectionS: String?,
-    @SerializedName("ia_loaded_id")
-    var iaLoadedId: List<String?>?,
     @SerializedName("isbn")
     var isbn: List<String?>?,
     @SerializedName("wishlist")
@@ -69,8 +61,6 @@ data class Book (
     var publishDate: List<String?>?,
     @SerializedName("publisher")
     var publisher: List<String?>?,
-    @SerializedName("seed")
-    var seed: List<String?>?,
     @SerializedName("subject")
     var subject: List<String?>?,
     @SerializedName("text")

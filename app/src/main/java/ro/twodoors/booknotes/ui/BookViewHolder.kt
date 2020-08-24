@@ -13,7 +13,7 @@ import ro.twodoors.booknotes.toDP
 class BookViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bindBooks(book: Book) {
         itemView.title.text = book.title
-        itemView.author.text = book.authorName?.get(0).orEmpty()
+        itemView.author.text = book.authorName?.joinToString().orEmpty()
         Picasso.get().load(getCoverUrl(book.coverEditionKey))
             .placeholder(R.drawable.ic_photo_black_24dp)
             .resize(120.toDP(), 180.toDP())
