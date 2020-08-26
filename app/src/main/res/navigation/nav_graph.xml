@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/books"
-        android:name="ro.twodoors.booknotes.ui.fragments.BooksFragment"
+        android:name="ro.twodoors.booknotes.ui.books.BooksFragment"
         android:label="fragment_books"
         tools:layout="@layout/fragment_books" />
     <fragment
         android:id="@+id/add"
-        android:name="ro.twodoors.booknotes.ui.fragments.AddFragment"
+        android:name="ro.twodoors.booknotes.ui.add.AddFragment"
         android:label="fragment_add"
         tools:layout="@layout/fragment_add" />
     <fragment
         android:id="@+id/search"
-        android:name="ro.twodoors.booknotes.ui.fragments.SearchFragment"
+        android:name="ro.twodoors.booknotes.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/wishlist"
-        android:name="ro.twodoors.booknotes.ui.fragments.WishlistFragment"
+        android:name="ro.twodoors.booknotes.ui.wish.WishlistFragment"
         android:label="fragment_wishlist"
         tools:layout="@layout/fragment_wishlist" />
 

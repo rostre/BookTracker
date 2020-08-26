@@ -16,6 +16,7 @@
 
 package ro.twodoors.booknotes
 
+import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import ro.twodoors.booknotes.api.LibraryService
 import ro.twodoors.booknotes.data.Repository
@@ -26,17 +27,17 @@ import ro.twodoors.booknotes.ui.ViewModelFactory
  * Like this, objects can be passed as parameters in the constructors and then replaced for
  * testing, where needed.
  */
-object Injection {
-
-    private fun provideRepository(): Repository {
-        return Repository(LibraryService.create())
-    }
-
-    /**
-     * Provides the [ViewModelProvider.Factory] that is then used to get a reference to
-     * [ViewModel] objects.
-     */
-    fun provideViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory(provideRepository())
-    }
-}
+//object Injection {
+//
+//    private fun provideRepository(): Repository {
+//        return Repository(LibraryService.create())
+//    }
+//
+//    /**
+//     * Provides the [ViewModelProvider.Factory] that is then used to get a reference to
+//     * [ViewModel] objects.
+//     */
+//    fun provideViewModelFactory(): ViewModelProvider.Factory {
+//        return ViewModelFactory(provideRepository())
+//    }
+//}

@@ -1,4 +1,4 @@
-package ro.twodoors.booknotes.ui.fragments
+package ro.twodoors.booknotes.ui.add
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_add.*
 
 import ro.twodoors.booknotes.R
 import ro.twodoors.booknotes.databinding.FragmentAddBinding

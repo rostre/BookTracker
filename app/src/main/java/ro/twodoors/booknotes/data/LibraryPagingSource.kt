@@ -3,7 +3,7 @@ package ro.twodoors.booknotes.data
 import androidx.paging.PagingSource
 import retrofit2.HttpException
 import ro.twodoors.booknotes.api.LibraryService
-import ro.twodoors.booknotes.model.Book
+import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
 import java.io.IOException
 
@@ -13,9 +13,9 @@ class LibraryPagingSource(
     private val service: LibraryService,
     private val query: String,
     private val searchCriteria: SearchCriteria
-) : PagingSource<Int, Book>() {
+) : PagingSource<Int, Doc>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Book> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Doc> {
         val position = params.key ?: STARTING_PAGE_INDEX
         val apiQuery = query
         return try {

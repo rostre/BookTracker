@@ -1,4 +1,4 @@
-package ro.twodoors.booknotes.ui.fragments
+package ro.twodoors.booknotes.ui.wish
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

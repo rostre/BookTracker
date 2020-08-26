@@ -1,4 +1,4 @@
-package ro.twodoors.booknotes.ui.fragments
+package ro.twodoors.booknotes.ui.search
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -13,38 +13,55 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.search_item.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import ro.twodoors.booknotes.BookAdapter
-import ro.twodoors.booknotes.Injection
+import ro.twodoors.booknotes.api.LibraryService
+import ro.twodoors.booknotes.data.Repository
 
-import ro.twodoors.booknotes.R
-import ro.twodoors.booknotes.databinding.FragmentBooksBinding
 import ro.twodoors.booknotes.databinding.FragmentSearchBinding
+import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
+import ro.twodoors.booknotes.showToast
 import ro.twodoors.booknotes.ui.BooksLoadStateAdapter
-import ro.twodoors.booknotes.ui.SearchViewModel
-import java.util.*
+import ro.twodoors.booknotes.ui.ViewModelFactory
 
 private const val SEARCH_BOOKS_BY = "Search books by"
 
 class SearchFragment :  Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var viewModel: SearchViewModel
-    private val adapter = BookAdapter()
+    //private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by lazy {
+        val activity =  requireNotNull(this.activity){ "You can only access the viewModel after onActivityCreated()" }
+        val viewModelFactory = ViewModelFactory(Repository(LibraryService.create()), activity.application)
+        ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
+    }
+    private val adapter = SearchAdapter{ view, doc -> adapterOnClick(view, doc )}
     private var searchCriteria = SearchCriteria.Keywords
-
     private var searchJob: Job? = null
 
+    private fun adapterOnClick(view: View, doc: Doc) {
+        when(view.id){
+            addBook.id -> addBook(doc)
+            addToWishlist.id -> addBookToWishlist(doc)
+        }
+    }
+
+    private fun addBook(doc: Doc) {
+        viewModel.addBook(doc)
+        this.context?.showToast("Book added")
+    }
+
+    private fun addBookToWishlist(doc: Doc) {
+        viewModel.addBookToWishlist(doc)
+        this.context?.showToast("Book added to wishlist")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,9 +69,8 @@ class SearchFragment :  Fragment() {
     ): View? {
 
         binding = FragmentSearchBinding.inflate(layoutInflater)
-        val view = binding.root
 
-        viewModel = ViewModelProvider(this, Injection.provideViewModelFactory()).get(SearchViewModel::class.java)
+        //viewModel = ViewModelProvider(this, Injection.provideViewModelFactory()).get(SearchViewModel::class.java)
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.bookList.addItemDecoration(decoration)
 
@@ -68,7 +84,7 @@ class SearchFragment :  Fragment() {
         initSearch()
         binding.retryButton.setOnClickListener { adapter.retry() }
 
-        return view
+        return binding.root
     }
 
     private fun initAdapter() {

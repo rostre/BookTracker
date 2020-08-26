@@ -6,12 +6,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import ro.twodoors.booknotes.api.LibraryService
-import ro.twodoors.booknotes.model.Book
+import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
 
 class Repository(private val service: LibraryService) {
 
-    fun getSearchResultStream(query: String, searchCriteria: SearchCriteria): Flow<PagingData<Book>> {
+    fun getSearchResultStream(query: String, searchCriteria: SearchCriteria): Flow<PagingData<Doc>> {
         Log.d("Repository", "New query: $query")
         return Pager(
             config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
