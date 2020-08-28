@@ -8,13 +8,14 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import ro.twodoors.booknotes.api.LibraryService
 import ro.twodoors.booknotes.data.Repository
 import ro.twodoors.booknotes.db.BookRepositoryImpl
 import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
 
 
-class SearchViewModel(private val repository: Repository, application: Application) : ViewModel() {
+class SearchViewModel(application: Application) : ViewModel() {
 
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<Doc>>? = null
@@ -24,6 +25,8 @@ class SearchViewModel(private val repository: Repository, application: Applicati
         if (queryString == currentQueryValue && lastResult != null) {
             return lastResult
         }
+
+        val repository = Repository(LibraryService.create())
         currentQueryValue = queryString
         val newResult: Flow<PagingData<Doc>> = repository.getSearchResultStream(queryString, searchCriteria)
             .cachedIn(viewModelScope)
@@ -38,8 +41,8 @@ class SearchViewModel(private val repository: Repository, application: Applicati
     }
 
     fun addBookToWishlist(doc: Doc) = viewModelScope.launch (Dispatchers.IO){
+        doc.wishlist = true
         bookRepo.addBook(doc)
-        bookRepo.addBookToWishlist(doc.id)
     }
 
 

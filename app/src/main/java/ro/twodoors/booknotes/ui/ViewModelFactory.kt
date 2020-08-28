@@ -22,23 +22,26 @@ import androidx.lifecycle.ViewModelProvider
 import ro.twodoors.booknotes.data.Repository
 import ro.twodoors.booknotes.ui.books.BooksViewModel
 import ro.twodoors.booknotes.ui.search.SearchViewModel
+import ro.twodoors.booknotes.ui.wish.WishlistViewModel
 
 /**
  * Factory for ViewModels
  */
-class ViewModelFactory(private val repository: Repository, private val application: Application) : ViewModelProvider.Factory {
+class ViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return SearchViewModel(
-                repository,
-                application
-            ) as T
+        return when {
+            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
+                SearchViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(BooksViewModel::class.java) -> {
+                BooksViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(WishlistViewModel::class.java) -> {
+                WishlistViewModel(application) as T
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
-        if (modelClass.isAssignableFrom(BooksViewModel::class.java)){
-            return BooksViewModel(application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

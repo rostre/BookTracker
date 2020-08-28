@@ -21,12 +21,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
-import ro.twodoors.booknotes.api.LibraryService
-import ro.twodoors.booknotes.data.Repository
 
 import ro.twodoors.booknotes.databinding.FragmentSearchBinding
 import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
+import ro.twodoors.booknotes.scaler
 import ro.twodoors.booknotes.showToast
 import ro.twodoors.booknotes.ui.BooksLoadStateAdapter
 import ro.twodoors.booknotes.ui.ViewModelFactory
@@ -36,11 +35,9 @@ private const val SEARCH_BOOKS_BY = "Search books by"
 class SearchFragment :  Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    //private lateinit var viewModel: SearchViewModel
     private val viewModel: SearchViewModel by lazy {
-        val activity =  requireNotNull(this.activity){ "You can only access the viewModel after onActivityCreated()" }
-        val viewModelFactory = ViewModelFactory(Repository(LibraryService.create()), activity.application)
-        ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
+        val activity =  requireNotNull(this.activity)
+        ViewModelProvider(this, ViewModelFactory(activity.application)).get(SearchViewModel::class.java)
     }
     private val adapter = SearchAdapter{ view, doc -> adapterOnClick(view, doc )}
     private var searchCriteria = SearchCriteria.Keywords
@@ -48,18 +45,20 @@ class SearchFragment :  Fragment() {
 
     private fun adapterOnClick(view: View, doc: Doc) {
         when(view.id){
-            addBook.id -> addBook(doc)
-            addToWishlist.id -> addBookToWishlist(doc)
+            addBook.id -> addBook(view, doc)
+            addToWishlist.id -> addBookToWishlist(view, doc)
         }
     }
 
-    private fun addBook(doc: Doc) {
+    private fun addBook(view: View, doc: Doc) {
         viewModel.addBook(doc)
+        view.scaler()
         this.context?.showToast("Book added")
     }
 
-    private fun addBookToWishlist(doc: Doc) {
+    private fun addBookToWishlist(view: View, doc: Doc) {
         viewModel.addBookToWishlist(doc)
+        view.scaler()
         this.context?.showToast("Book added to wishlist")
     }
 
@@ -69,8 +68,6 @@ class SearchFragment :  Fragment() {
     ): View? {
 
         binding = FragmentSearchBinding.inflate(layoutInflater)
-
-        //viewModel = ViewModelProvider(this, Injection.provideViewModelFactory()).get(SearchViewModel::class.java)
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.bookList.addItemDecoration(decoration)
 
@@ -163,3 +160,5 @@ class SearchFragment :  Fragment() {
     }
 
 }
+
+

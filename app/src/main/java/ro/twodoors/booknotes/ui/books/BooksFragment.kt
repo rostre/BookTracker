@@ -13,30 +13,29 @@ import ro.twodoors.booknotes.api.LibraryService
 import ro.twodoors.booknotes.data.Repository
 import ro.twodoors.booknotes.databinding.FragmentBooksBinding
 import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.scaler
 import ro.twodoors.booknotes.showToast
 import ro.twodoors.booknotes.ui.ViewModelFactory
 
 class BooksFragment : Fragment() {
 
-
     private lateinit var binding: FragmentBooksBinding
 
     private val viewModel: BooksViewModel by lazy {
-        val activity =  requireNotNull(this.activity){ "You can only access the viewModel after onActivityCreated()" }
-        val viewModelFactory = ViewModelFactory(Repository(LibraryService.create()), activity.application)
-        ViewModelProvider(this, viewModelFactory).get(BooksViewModel::class.java)
+        val activity =  requireNotNull(this.activity)
+        ViewModelProvider(this, ViewModelFactory(activity.application)).get(BooksViewModel::class.java)
     }
-    private val adapter = BookAdapter { removeBook(it) }
+    private val adapter = BookAdapter { view, doc -> removeBook(view, doc) }
 
-    private fun removeBook(doc: Doc) {
+    private fun removeBook(view: View, doc: Doc) {
+        view.scaler()
         viewModel.removeBook(doc)
         this.context?.showToast("Book removed")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
 
         binding = FragmentBooksBinding.inflate(layoutInflater)
         binding.myBooks.adapter = adapter
@@ -50,7 +49,5 @@ class BooksFragment : Fragment() {
 
         return binding.root
     }
-
-
 
 }
