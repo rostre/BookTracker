@@ -1,5 +1,6 @@
 package ro.twodoors.booknotes.ui.books
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -7,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.model.Doc
 
 class BookAdapter(
-    val adapterOnClick: (Doc) -> Unit
+    val adapterOnClick: (View, Doc) -> Unit
 ) : ListAdapter<Doc, RecyclerView.ViewHolder>(BOOK_COMPARATOR) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
