@@ -20,9 +20,11 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ro.twodoors.booknotes.data.Repository
+import ro.twodoors.booknotes.ui.bookdetails.BookDetailsViewModel
 import ro.twodoors.booknotes.ui.books.BooksViewModel
 import ro.twodoors.booknotes.ui.search.SearchViewModel
 import ro.twodoors.booknotes.ui.wish.WishlistViewModel
+import ro.twodoors.booknotes.ui.workdetails.WorkDetailsViewModel
 
 /**
  * Factory for ViewModels
@@ -40,6 +42,12 @@ class ViewModelFactory(private val application: Application) : ViewModelProvider
             }
             modelClass.isAssignableFrom(WishlistViewModel::class.java) -> {
                 WishlistViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(WorkDetailsViewModel::class.java) -> {
+                WorkDetailsViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(BookDetailsViewModel::class.java) -> {
+                BookDetailsViewModel(application) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

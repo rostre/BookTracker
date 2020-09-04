@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="book"
+            type="ro.twodoors.booknotes.model.Book" />
+        <variable
+            name="viewModel"
+            type="ro.twodoors.booknotes.ui.bookdetails.BookDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.bookdetails.BookDetailsFragment">
+
+        <ImageView
+            android:id="@+id/ivBlurredCover"
+            android:layout_width="match_parent"
+            android:layout_height="188dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:blurCover="@{book.cover.medium}"
+            android:scaleType="fitXY"
+            tools:background="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/ivBookCover"
+            android:layout_width="140dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="48dp"
+            android:scaleType="fitXY"
+            app:detailCover="@{book.cover.medium}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/addToWishlist"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_favorite_outline"
+            app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+            app:layout_constraintTop_toBottomOf="@+id/ivBlurredCover" />
+        <ImageView
+            android:id="@+id/removeFromWishlist"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_favorite"
+            app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+            app:layout_constraintTop_toBottomOf="@+id/ivBlurredCover"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/addBook"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:src="@drawable/ic_bookmark_outline"
+            app:layout_constraintEnd_toStartOf="@+id/ivBookCover"
+            app:layout_constraintTop_toBottomOf="@+id/ivBlurredCover" />
+        <ImageView
+            android:id="@+id/removeBook"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:src="@drawable/ic_bookmark_filled"
+            app:layout_constraintEnd_toStartOf="@+id/ivBookCover"
+            app:layout_constraintTop_toBottomOf="@+id/ivBlurredCover"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{book.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivBookCover"
+            tools:text="Money - Master the Game" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            app:bookAuthors="@{book.authors}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="Tony Robbins" />
+
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_margin="@dimen/general_margin_16dp"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/author">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipgrpSubjects"
+                android:layout_width="0dp"
+                android:padding="4dp"
+                android:layout_height="match_parent"
+                app:chipSpacingHorizontal="10dp"
+                app:singleLine="true"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

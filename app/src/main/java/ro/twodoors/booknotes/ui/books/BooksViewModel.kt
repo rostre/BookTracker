@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
 
 
@@ -14,10 +15,10 @@ class BooksViewModel(application: Application) : ViewModel() {
 
     private val bookRepo = BookRepositoryImpl(application)
 
-    val allBooks : LiveData<List<Doc>> = bookRepo.getAllBooks()
+    val allBooks : LiveData<List<Book>> = bookRepo.getAllBooks()
 
-    fun removeBook(doc: Doc) = viewModelScope.launch(Dispatchers.IO){
-        bookRepo.removeBook(doc)
+    fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO){
+        bookRepo.removeBook(book)
     }
 
 

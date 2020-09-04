@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="book"
+            type="ro.twodoors.booknotes.model.Book" />
+        <variable
+            name="clickListener"
+            type="ro.twodoors.booknotes.ui.search.OnClickListener" />
+        <variable
+            name="isbn"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(book)}">
+
+        <ImageView
+            android:id="@+id/ivCover"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/margin_8dp"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars"
+            app:detailCover="@{book.cover.medium}"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/general_margin_16dp"
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toTopOf="@+id/ivCover"
+            android:text="@{book.title}"
+            tools:text="Lord Of The Rings" />
+
+        <TextView
+            android:id="@+id/tvPublishedYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            app:published="@{book.publishDate}"
+            tools:text="Published: 2005" />
+
+        <TextView
+            android:id="@+id/tvNumberOfPages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toBottomOf="@+id/tvPublishedYear"
+            app:pages="@{book.numberOfPages}"
+            tools:text="Number of pages: 2005" />
+
+        <TextView
+            android:id="@+id/tvIsbn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/ivCover"
+            app:layout_constraintTop_toBottomOf="@+id/tvNumberOfPages"
+            app:isbn="@{isbn}"
+            tools:text="ISBN: 2005345678123" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

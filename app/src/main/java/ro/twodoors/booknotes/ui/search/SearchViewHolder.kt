@@ -9,11 +9,11 @@ import ro.twodoors.booknotes.model.Doc
 
 class SearchViewHolder private constructor(val binding: SearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindBooks(doc: Doc, adapterOnClick : (View, Doc) -> Unit) {
+    //fun bindBooks(doc: Doc, adapterOnClick : (View, Doc) -> Unit) {
+    fun bindBooks(doc: Doc, clickListener: OnClickListener) {
         binding.apply {
             this.doc = doc
-            addBook.setOnClickListener { adapterOnClick (it, doc)}
-            addToWishlist.setOnClickListener { adapterOnClick (it, doc) }
+            this.clickListener = clickListener
             executePendingBindings()
         }
     }

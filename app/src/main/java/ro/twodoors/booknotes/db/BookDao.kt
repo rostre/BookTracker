@@ -3,7 +3,7 @@ package ro.twodoors.booknotes.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Category
 
 @Dao
@@ -11,13 +11,19 @@ interface BookDao {
 
     @Query("SELECT * FROM book_table WHERE wishlist = 0 ORDER BY title")
 //    @Query("SELECT * FROM book_table ORDER BY title")
-    fun getAllBooks() : LiveData<List<Doc>>
+    fun getAllBooks() : LiveData<List<Book>>
 
     @Query("SELECT * FROM book_table WHERE wishlist = 1 ORDER BY title")
-    fun getAllBooksFromWishlist() : LiveData<List<Doc>>
+    fun getAllBooksFromWishlist() : LiveData<List<Book>>
 
     @Query("SELECT * FROM book_table WHERE id = :id and wishlist = 1")
-    fun getBookFromWishlist(id: String) : LiveData<Doc>
+    fun getBookFromWishlist(id: String) : LiveData<Book>
+
+    @Query("SELECT * FROM book_table WHERE id = :id")
+    fun getBook(id: String) : LiveData<Book>
+
+    @Query("SELECT wishlist FROM book_table WHERE id = :id")
+    fun isWishlisted(id: String) : LiveData<Boolean>
 
     @Query("UPDATE book_table set wishlist = 1 WHERE id = :id")
     fun addBookToWishlist(id: String)
@@ -26,10 +32,10 @@ interface BookDao {
     fun removeBookFromWishlist(id: String)
 
     @Insert(onConflict = REPLACE)
-    fun addBook(doc: Doc)
+    fun addBook(book: Book)
 
     @Delete
-    fun removeBook(doc: Doc)
+    fun removeBook(book: Book)
 
     //Categories related actions
     @Insert(onConflict = OnConflictStrategy.IGNORE)

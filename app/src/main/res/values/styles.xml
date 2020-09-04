@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ChipsStyle">
+        <item name="android:checkable">false</item>
+        <item name="android:clickable">false</item>
+    </style>
+
 </resources>

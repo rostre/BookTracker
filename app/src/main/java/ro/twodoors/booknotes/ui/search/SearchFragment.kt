@@ -9,12 +9,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.search_item.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -39,28 +41,11 @@ class SearchFragment :  Fragment() {
         val activity =  requireNotNull(this.activity)
         ViewModelProvider(this, ViewModelFactory(activity.application)).get(SearchViewModel::class.java)
     }
-    private val adapter = SearchAdapter{ view, doc -> adapterOnClick(view, doc )}
+    //private val adapter = SearchAdapter{ view, doc -> adapterOnClick(view, doc )}
+    private val adapter = SearchAdapter(OnClickListener{ doc -> viewModel.onDocClicked(doc as Doc) })
     private var searchCriteria = SearchCriteria.Keywords
     private var searchJob: Job? = null
 
-    private fun adapterOnClick(view: View, doc: Doc) {
-        when(view.id){
-            addBook.id -> addBook(view, doc)
-            addToWishlist.id -> addBookToWishlist(view, doc)
-        }
-    }
-
-    private fun addBook(view: View, doc: Doc) {
-        viewModel.addBook(doc)
-        view.scaler()
-        this.context?.showToast("Book added")
-    }
-
-    private fun addBookToWishlist(view: View, doc: Doc) {
-        viewModel.addBookToWishlist(doc)
-        view.scaler()
-        this.context?.showToast("Book added to wishlist")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +53,8 @@ class SearchFragment :  Fragment() {
     ): View? {
 
         binding = FragmentSearchBinding.inflate(layoutInflater)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.bookList.addItemDecoration(decoration)
 
@@ -80,6 +67,14 @@ class SearchFragment :  Fragment() {
         initAdapter()
         initSearch()
         binding.retryButton.setOnClickListener { adapter.retry() }
+
+        viewModel.navigateToDocDetail.observe(viewLifecycleOwner, Observer {doc ->
+            doc?.let {
+                this.findNavController()
+                    .navigate(SearchFragmentDirections.actionSearchToWorkDetailsFragment(it))
+                viewModel.onDocClickedNavigated()
+            }
+        })
 
         return binding.root
     }
@@ -153,12 +148,14 @@ class SearchFragment :  Fragment() {
         // Make sure we cancel the previous job before creating a new one
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.searchBooks(query, searchCriteria).collectLatest {
-                adapter.submitData(it)
+            viewModel.searchDocs(query, searchCriteria).collectLatest {
+                val filtered : PagingData<Doc>
+                filtered = it.filterSync {doc ->
+                    doc.isbn != null}.filterSync {doc ->  !doc.authorName.isNullOrEmpty() }.filterSync { doc ->  !doc.coverEditionKey.isNullOrEmpty() }
+                adapter.submitData(filtered)
             }
         }
     }
-
 }
 
 

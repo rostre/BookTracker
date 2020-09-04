@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.wishlist_item.*
 import ro.twodoors.booknotes.databinding.FragmentWishlistBinding
 import ro.twodoors.booknotes.fader
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.scaler
 import ro.twodoors.booknotes.showToast
@@ -26,7 +27,7 @@ class WishlistFragment : Fragment() {
         val activity =  requireNotNull(this.activity)
         ViewModelProvider(this, ViewModelFactory(activity.application)).get(WishlistViewModel::class.java)
     }
-    private val adapter = WishlistAdapter {  view, doc -> adapterOnClick(view, doc ) }
+    private val adapter = WishlistAdapter {  view, book -> adapterOnClick(view, book ) }
 
 
     override fun onCreateView(
@@ -47,24 +48,24 @@ class WishlistFragment : Fragment() {
     }
 
 
-    private fun adapterOnClick(view: View, doc: Doc) {
+    private fun adapterOnClick(view: View, book: Book) {
         when(view.id){
-            removeFromWish.id -> removeFromWishlist(view, doc)
-            addToBooks.id -> addToMyBooks(view, doc)
+            removeFromWish.id -> removeFromWishlist(view, book)
+            addToBooks.id -> addToMyBooks(view, book)
         }
     }
 
-    private fun addToMyBooks(view: View, doc: Doc) {
+    private fun addToMyBooks(view: View, book: Book) {
         view.scaler()
         view.fader()
-        viewModel.addToBooks(doc)
+        viewModel.addToBooks(book)
         this.context?.showToast("Book moved")
     }
 
-    private fun removeFromWishlist(view: View, doc: Doc) {
+    private fun removeFromWishlist(view: View, book: Book) {
         view.scaler()
         view.fader()
-        viewModel.removeBookFromWishlist(doc)
+        viewModel.removeBookFromWishlist(book)
         this.context?.showToast("Book removed")
     }
 

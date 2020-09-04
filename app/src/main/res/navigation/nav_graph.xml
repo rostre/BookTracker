@@ -19,12 +19,37 @@
         android:id="@+id/search"
         android:name="ro.twodoors.booknotes.ui.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_search_to_workDetailsFragment"
+            app:destination="@id/workDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/wishlist"
         android:name="ro.twodoors.booknotes.ui.wish.WishlistFragment"
         android:label="fragment_wishlist"
         tools:layout="@layout/fragment_wishlist" />
+    <fragment
+        android:id="@+id/workDetailsFragment"
+        android:name="ro.twodoors.booknotes.ui.workdetails.WorkDetailsFragment"
+        android:label="fragment_work_details"
+        tools:layout="@layout/fragment_work_details" >
+        <argument
+            android:name="doc"
+            app:argType="ro.twodoors.booknotes.model.Doc" />
+        <action
+            android:id="@+id/action_workDetailsFragment_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookDetailsFragment"
+        android:name="ro.twodoors.booknotes.ui.bookdetails.BookDetailsFragment"
+        android:label="fragment_book_details"
+        tools:layout="@layout/fragment_book_details" >
+        <argument
+            android:name="book"
+            app:argType="ro.twodoors.booknotes.model.Book" />
+    </fragment>
 
 
 </navigation>

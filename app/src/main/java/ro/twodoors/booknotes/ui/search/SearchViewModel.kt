@@ -1,6 +1,8 @@
 package ro.twodoors.booknotes.ui.search
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -11,6 +13,7 @@ import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.api.LibraryService
 import ro.twodoors.booknotes.data.Repository
 import ro.twodoors.booknotes.db.BookRepositoryImpl
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
 
@@ -20,7 +23,7 @@ class SearchViewModel(application: Application) : ViewModel() {
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<Doc>>? = null
 
-    fun searchBooks(queryString: String, searchCriteria: SearchCriteria): Flow<PagingData<Doc>> {
+    fun searchDocs(queryString: String, searchCriteria: SearchCriteria): Flow<PagingData<Doc>> {
         val lastResult = currentSearchResult
         if (queryString == currentQueryValue && lastResult != null) {
             return lastResult
@@ -34,15 +37,17 @@ class SearchViewModel(application: Application) : ViewModel() {
         return newResult
     }
 
-    val bookRepo = BookRepositoryImpl(application)
 
-    fun addBook(doc: Doc) = viewModelScope.launch (Dispatchers.IO){
-        bookRepo.addBook(doc)
+    private val _navigateToDocDetail = MutableLiveData<Doc>()
+    val navigateToDocDetail: LiveData<Doc>
+        get() = _navigateToDocDetail
+
+    fun onDocClicked(doc: Doc){
+        _navigateToDocDetail.value = doc
     }
 
-    fun addBookToWishlist(doc: Doc) = viewModelScope.launch (Dispatchers.IO){
-        doc.wishlist = true
-        bookRepo.addBook(doc)
+    fun onDocClickedNavigated(){
+        _navigateToDocDetail.value = null
     }
 
 

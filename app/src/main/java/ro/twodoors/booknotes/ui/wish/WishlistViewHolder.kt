@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.databinding.WishlistItemBinding
-import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.model.Book
 
 class WishlistViewHolder private constructor(val binding: WishlistItemBinding) : RecyclerView.ViewHolder(binding.root){
 
-    fun bindBooks(doc: Doc, adapterOnClick : (View, Doc) -> Unit) {
+    fun bindBooks(book: Book, adapterOnClick : (View, Book) -> Unit) {
         binding.apply {
-            this.doc = doc
-            addToBooks.setOnClickListener { adapterOnClick (it, doc)}
-            removeFromWish.setOnClickListener { adapterOnClick (it, doc) }
+            this.book = book
+            addToBooks.setOnClickListener { adapterOnClick (it, book)}
+            removeFromWish.setOnClickListener { adapterOnClick (it, book) }
             executePendingBindings()
         }
     }

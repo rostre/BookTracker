@@ -5,15 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.databinding.MyBooksItemBinding
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
 
 class BooksViewHolder
     private constructor(val binding: MyBooksItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindBooks(doc: Doc, adapterOnClick : (View, Doc) -> Unit){
+    fun bindBooks(book: Book, adapterOnClick : (View, Book) -> Unit){
         binding.apply {
-            this.doc = doc
-            deleteBook.setOnClickListener { adapterOnClick (it, doc)}
+            this.book = book
+            deleteBook.setOnClickListener { adapterOnClick (it, book)}
             executePendingBindings()
         }
     }

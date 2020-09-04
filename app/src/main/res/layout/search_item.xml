@@ -7,43 +7,38 @@
         <variable
             name="doc"
             type="ro.twodoors.booknotes.model.Doc" />
+        <variable
+            name="clickListener"
+            type="ro.twodoors.booknotes.ui.search.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:onClick="@{() -> clickListener.onClick(doc)}">
 
         <ImageView
             android:id="@+id/bookCover"
-            android:layout_width="120dp"
-            android:layout_height="180dp"
+            android:layout_width="@dimen/cover_photo_width"
+            android:layout_height="@dimen/cover_photo_height"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars"
             app:cover="@{doc.coverEditionKey}"/>
 
-        <ImageView
-            android:id="@+id/addToWishlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_favorite_outline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
+            android:text="@{doc.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
             app:layout_constraintStart_toEndOf="@+id/bookCover"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{doc.title}"
-            tools:text="Money - Master the Game"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"/>
+            tools:text="Money - Master the Game" />
 
         <TextView
             android:id="@+id/author"
@@ -52,18 +47,9 @@
             android:layout_marginTop="24dp"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            app:authors="@{doc}"
+            app:authors="@{doc.authorName}"
             tools:text="Tony Robbins"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
-
-        <ImageView
-            android:id="@+id/addBook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_bookmark_outline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

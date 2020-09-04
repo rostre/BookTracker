@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
-import kotlinx.android.synthetic.main.fragment_books.*
-import ro.twodoors.booknotes.api.LibraryService
-import ro.twodoors.booknotes.data.Repository
 import ro.twodoors.booknotes.databinding.FragmentBooksBinding
-import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.scaler
 import ro.twodoors.booknotes.showToast
 import ro.twodoors.booknotes.ui.ViewModelFactory
@@ -25,11 +22,11 @@ class BooksFragment : Fragment() {
         val activity =  requireNotNull(this.activity)
         ViewModelProvider(this, ViewModelFactory(activity.application)).get(BooksViewModel::class.java)
     }
-    private val adapter = BookAdapter { view, doc -> removeBook(view, doc) }
+    private val adapter = BookAdapter { view, book -> removeBook(view, book) }
 
-    private fun removeBook(view: View, doc: Doc) {
+    private fun removeBook(view: View, book: Book) {
         view.scaler()
-        viewModel.removeBook(doc)
+        viewModel.removeBook(book)
         this.context?.showToast("Book removed")
     }
 

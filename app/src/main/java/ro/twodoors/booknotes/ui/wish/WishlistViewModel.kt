@@ -7,19 +7,20 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
 
 class WishlistViewModel (application: Application) : ViewModel() {
 
     private val bookRepo = BookRepositoryImpl(application)
 
-    val allBooksFromWishlist : LiveData<List<Doc>> = bookRepo.getAllBooksFromWishlist()
+    val allBooksFromWishlist : LiveData<List<Book>> = bookRepo.getAllBooksFromWishlist()
 
-    fun addToBooks(doc: Doc) = viewModelScope.launch(Dispatchers.IO){
-        bookRepo.removeBookFromWishlist(doc.id)
+    fun addToBooks(book: Book) = viewModelScope.launch(Dispatchers.IO){
+        bookRepo.removeBookFromWishlist(book.id)
     }
 
-    fun removeBookFromWishlist(doc: Doc) = viewModelScope.launch(Dispatchers.IO){
-        bookRepo.removeBook(doc)
+    fun removeBookFromWishlist(book: Book) = viewModelScope.launch(Dispatchers.IO){
+        bookRepo.removeBook(book)
     }
 }
