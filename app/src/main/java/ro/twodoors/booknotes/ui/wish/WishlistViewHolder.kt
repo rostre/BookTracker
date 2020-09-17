@@ -14,6 +14,7 @@ class WishlistViewHolder private constructor(val binding: WishlistItemBinding) :
             this.book = book
             addToBooks.setOnClickListener { adapterOnClick (it, book)}
             removeFromWish.setOnClickListener { adapterOnClick (it, book) }
+            wishContainer.setOnClickListener { adapterOnClick(it, book) }
             executePendingBindings()
         }
     }

@@ -1,9 +1,10 @@
-package ro.twodoors.booknotes.model
+package ro.twodoors.booknotes.utils
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import ro.twodoors.booknotes.setBookAuthors
+import ro.twodoors.booknotes.model.Author
+import ro.twodoors.booknotes.model.Cover
+import ro.twodoors.booknotes.model.Subject
+import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
 
 class Converter {
 
@@ -59,6 +60,16 @@ class Converter {
             with(list) { add(Subject(name = subject)) }
         }
         return list
+    }
+
+    @TypeConverter
+    fun stringToReadingStatus(status: String?): ReadingStatus? {
+        return status?.let { ReadingStatus.valueOf(it) }
+    }
+
+    @TypeConverter
+    fun readingStatusToString(readingStatus: ReadingStatus?): String? {
+        return readingStatus?.name
     }
 
 }

@@ -2,6 +2,7 @@ package ro.twodoors.booknotes.ui.wish
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +10,8 @@ import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.getCurrentDateTime
 
 class WishlistViewModel (application: Application) : ViewModel() {
 
@@ -17,10 +20,25 @@ class WishlistViewModel (application: Application) : ViewModel() {
     val allBooksFromWishlist : LiveData<List<Book>> = bookRepo.getAllBooksFromWishlist()
 
     fun addToBooks(book: Book) = viewModelScope.launch(Dispatchers.IO){
-        bookRepo.removeBookFromWishlist(book.id)
+        book.wishlist = false
+        book.dateAdded = getCurrentDateTime()
+        book.readingStatus = ReadingStatus.Unread
+        bookRepo.updateBook(book)
     }
 
     fun removeBookFromWishlist(book: Book) = viewModelScope.launch(Dispatchers.IO){
         bookRepo.removeBook(book)
+    }
+
+    private val _navigateToBookDetail = MutableLiveData<Book>()
+    val navigateToBookDetail: LiveData<Book>
+        get() = _navigateToBookDetail
+
+    fun onBookClicked(book: Book){
+        _navigateToBookDetail.value = book
+    }
+
+    fun onBookClickedNavigated(){
+        _navigateToBookDetail.value = null
     }
 }

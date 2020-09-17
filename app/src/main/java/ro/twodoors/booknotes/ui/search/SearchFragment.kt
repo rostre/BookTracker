@@ -27,8 +27,6 @@ import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.databinding.FragmentSearchBinding
 import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
-import ro.twodoors.booknotes.scaler
-import ro.twodoors.booknotes.showToast
 import ro.twodoors.booknotes.ui.BooksLoadStateAdapter
 import ro.twodoors.booknotes.ui.ViewModelFactory
 

@@ -1,4 +1,4 @@
-package ro.twodoors.booknotes
+package ro.twodoors.booknotes.utils
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -9,6 +9,10 @@ import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 fun Int.toDP(): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
@@ -57,6 +61,16 @@ fun View.fader() {
     val animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0f)
     animator.disableViewDuringAnimation(this)
     animator.start()
+}
+
+fun Fragment.initToolbar(toolbar: Toolbar, backEnabled: Boolean = false, titleResId: Int? = null) {
+    val appCompatActivity = activity as AppCompatActivity
+    appCompatActivity.setSupportActionBar(toolbar)
+    if (titleResId != null) appCompatActivity.supportActionBar?.setTitle(titleResId)
+    if(backEnabled){
+        appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(backEnabled)
+        toolbar.setNavigationOnClickListener { this.findNavController().navigateUp() }
+    }
 }
 
 

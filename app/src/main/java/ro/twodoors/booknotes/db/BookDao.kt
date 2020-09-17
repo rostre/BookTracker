@@ -5,15 +5,16 @@ import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Category
+import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
 
 @Dao
 interface BookDao {
 
-    @Query("SELECT * FROM book_table WHERE wishlist = 0 ORDER BY title")
+    @Query("SELECT * FROM book_table WHERE wishlist = 0 ORDER BY dateAdded DESC")
 //    @Query("SELECT * FROM book_table ORDER BY title")
     fun getAllBooks() : LiveData<List<Book>>
 
-    @Query("SELECT * FROM book_table WHERE wishlist = 1 ORDER BY title")
+    @Query("SELECT * FROM book_table WHERE wishlist = 1 ORDER BY dateAdded DESC")
     fun getAllBooksFromWishlist() : LiveData<List<Book>>
 
     @Query("SELECT * FROM book_table WHERE id = :id and wishlist = 1")
@@ -22,8 +23,14 @@ interface BookDao {
     @Query("SELECT * FROM book_table WHERE id = :id")
     fun getBook(id: String) : LiveData<Book>
 
+    @Query("SELECT * FROM book_table WHERE readingStatus = :status ORDER BY dateAdded DESC")
+    fun getBookByStatus(status: ReadingStatus) : LiveData<List<Book>>
+
     @Query("SELECT wishlist FROM book_table WHERE id = :id")
     fun isWishlisted(id: String) : LiveData<Boolean>
+
+    @Query("SELECT * FROM book_table WHERE id = :id AND wishlist = 0")
+    fun isAlreadySaved(id: String) : LiveData<Book>
 
     @Query("UPDATE book_table set wishlist = 1 WHERE id = :id")
     fun addBookToWishlist(id: String)
@@ -33,6 +40,9 @@ interface BookDao {
 
     @Insert(onConflict = REPLACE)
     fun addBook(book: Book)
+
+    @Update
+    fun updateBook(book: Book)
 
     @Delete
     fun removeBook(book: Book)

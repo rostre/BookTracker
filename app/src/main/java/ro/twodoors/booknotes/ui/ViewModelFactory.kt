@@ -19,9 +19,14 @@ package ro.twodoors.booknotes.ui
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ro.twodoors.booknotes.data.Repository
+import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.ui.bookdetails.BookDetailsViewModel
+import ro.twodoors.booknotes.ui.booknotes.BookNotesViewModel
 import ro.twodoors.booknotes.ui.books.BooksViewModel
+import ro.twodoors.booknotes.ui.reading.quitted.QuittedViewModel
+import ro.twodoors.booknotes.ui.reading.read.ReadViewModel
+import ro.twodoors.booknotes.ui.reading.reading.ReadingViewModel
+import ro.twodoors.booknotes.ui.reading.unread.UnreadViewModel
 import ro.twodoors.booknotes.ui.search.SearchViewModel
 import ro.twodoors.booknotes.ui.wish.WishlistViewModel
 import ro.twodoors.booknotes.ui.workdetails.WorkDetailsViewModel
@@ -29,7 +34,7 @@ import ro.twodoors.booknotes.ui.workdetails.WorkDetailsViewModel
 /**
  * Factory for ViewModels
  */
-class ViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+class ViewModelFactory(private val application: Application, private val any: Any? = null) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -47,8 +52,24 @@ class ViewModelFactory(private val application: Application) : ViewModelProvider
                 WorkDetailsViewModel(application) as T
             }
             modelClass.isAssignableFrom(BookDetailsViewModel::class.java) -> {
-                BookDetailsViewModel(application) as T
+                BookDetailsViewModel(application, any as Book) as T
             }
+            modelClass.isAssignableFrom(BookNotesViewModel::class.java) -> {
+                BookNotesViewModel(application, any as String) as T
+            }
+            modelClass.isAssignableFrom(QuittedViewModel::class.java) -> {
+                QuittedViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(ReadingViewModel::class.java) -> {
+                ReadingViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(ReadViewModel::class.java) -> {
+                ReadViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(UnreadViewModel::class.java) -> {
+                UnreadViewModel(application) as T
+            }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
     }

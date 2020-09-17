@@ -2,10 +2,16 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#4DF120</color>
 
     <color name="red_favorite">#f7284a</color>
     <color name="gray">#808080</color>
     <color name="gray_light">#9d9d9d</color>
     <color name="gray_shadow_light">#7e9d9d9d</color>
+
+    <color name="progress_reading">#FF9B30</color>
+    <color name="progress_read">#27A505</color>
+    <color name="progress_quit">#f7284a</color>
+    <color name="progress_unread">#8E8E8E</color>
+    <color name="thumb_color">#051671</color>
 </resources>

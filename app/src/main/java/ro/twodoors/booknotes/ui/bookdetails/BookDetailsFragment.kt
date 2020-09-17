@@ -5,17 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.fragment_book_details.*
-import ro.twodoors.booknotes.R
 import ro.twodoors.booknotes.databinding.FragmentBookDetailsBinding
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Subject
-import ro.twodoors.booknotes.scaler
-import ro.twodoors.booknotes.showToast
+import ro.twodoors.booknotes.utils.scaler
+import ro.twodoors.booknotes.utils.showToast
 import ro.twodoors.booknotes.ui.ViewModelFactory
+import ro.twodoors.booknotes.utils.initToolbar
 
 
 class BookDetailsFragment : Fragment() {
@@ -24,18 +24,40 @@ class BookDetailsFragment : Fragment() {
     private lateinit var binding: FragmentBookDetailsBinding
     private val viewModel: BookDetailsViewModel by lazy {
         val activity =  requireNotNull(this.activity)
-        ViewModelProvider(this, ViewModelFactory(activity.application)).get(BookDetailsViewModel::class.java)
+        ViewModelProvider(this, ViewModelFactory(activity.application, book)).get(BookDetailsViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
+        book = BookDetailsFragmentArgs.fromBundle(requireArguments()).book
         binding = FragmentBookDetailsBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        book = BookDetailsFragmentArgs.fromBundle(requireArguments()).book
         binding.book = book
+        initToolbar(binding.toolbar, true)
+
+        viewModel.isFavorite.observe(viewLifecycleOwner, Observer {
+            if (it != null && it) {
+                binding.removeFromWishlist.visibility = View.VISIBLE
+                binding.addToWishlist.visibility = View.INVISIBLE
+            } else {
+                binding.removeFromWishlist.visibility = View.INVISIBLE
+                binding.addToWishlist.visibility = View.VISIBLE
+            }
+
+        })
+
+        viewModel.isAlreadySaved.observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                binding.removeBook.visibility = View.VISIBLE
+                binding.addBook.visibility = View.INVISIBLE
+            } else {
+                binding.removeBook.visibility = View.INVISIBLE
+                binding.addBook.visibility = View.VISIBLE
+            }
+        })
 
         setupClickListeners()
         setupSubjects()
@@ -88,6 +110,26 @@ class BookDetailsFragment : Fragment() {
         binding.addToWishlist.setOnClickListener {
             addBookToWishlist(it)
         }
+
+        binding.removeFromWishlist.setOnClickListener {
+            removeBookFromWishlist(it)
+        }
+
+        binding.removeBook.setOnClickListener {
+            removeBookFromDatabase(it)
+        }
+    }
+
+    private fun removeBookFromDatabase(view: View) {
+        viewModel.removeBook(book)
+        view.scaler()
+        this.context?.showToast("Book removed from bookshelf")
+    }
+
+    private fun removeBookFromWishlist(view: View) {
+        viewModel.removeBookFromWishlist(book)
+        view.scaler()
+        this.context?.showToast("Book removed from bookshelf")
     }
 
     private fun addBook(view: View) {

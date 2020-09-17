@@ -3,8 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/books">
+    app:startDestination="@id/reading">
 
+    <fragment
+        android:id="@+id/reading"
+        android:name="ro.twodoors.booknotes.ui.reading.status.ReadingStatusFragment"
+        android:label="fragment_reading_status"
+        tools:layout="@layout/fragment_reading_status" >
+        <action
+            android:id="@+id/action_reading_to_bookNotesFragment"
+            app:destination="@id/bookNotesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/books"
         android:name="ro.twodoors.booknotes.ui.books.BooksFragment"
@@ -28,7 +37,11 @@
         android:id="@+id/wishlist"
         android:name="ro.twodoors.booknotes.ui.wish.WishlistFragment"
         android:label="fragment_wishlist"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_wishlist_to_bookDetailsFragment"
+            app:destination="@id/bookDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/workDetailsFragment"
         android:name="ro.twodoors.booknotes.ui.workdetails.WorkDetailsFragment"
@@ -50,6 +63,13 @@
             android:name="book"
             app:argType="ro.twodoors.booknotes.model.Book" />
     </fragment>
-
+    <fragment
+        android:id="@+id/bookNotesFragment"
+        android:name="ro.twodoors.booknotes.ui.booknotes.BookNotesFragment"
+        android:label="BookNotesFragment" >
+        <argument
+            android:name="bookId"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

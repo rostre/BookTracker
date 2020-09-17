@@ -17,13 +17,23 @@
         android:layout_height="match_parent"
         tools:context=".ui.bookdetails.BookDetailsFragment">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{book.title}"
+            tools:title="Money - Master the game"/>
+
         <ImageView
             android:id="@+id/ivBlurredCover"
             android:layout_width="match_parent"
             android:layout_height="188dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:blurCover="@{book.cover.medium}"
             android:scaleType="fitXY"
             tools:background="@color/colorPrimary" />
@@ -38,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
@@ -70,6 +80,7 @@
             android:src="@drawable/ic_bookmark_outline"
             app:layout_constraintEnd_toStartOf="@+id/ivBookCover"
             app:layout_constraintTop_toBottomOf="@+id/ivBlurredCover" />
+
         <ImageView
             android:id="@+id/removeBook"
             android:layout_width="32dp"
@@ -82,19 +93,6 @@
             android:visibility="invisible"/>
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@{book.title}"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivBookCover"
-            tools:text="Money - Master the Game" />
-
-        <TextView
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,26 +101,133 @@
             app:bookAuthors="@{book.authors}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/ivBookCover"
             tools:text="Tony Robbins" />
 
         <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_margin="@dimen/general_margin_16dp"
             android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/author">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipgrpSubjects"
                 android:layout_width="0dp"
-                android:padding="4dp"
                 android:layout_height="match_parent"
+                android:padding="4dp"
                 app:chipSpacingHorizontal="10dp"
                 app:singleLine="true"
                 app:singleSelection="true" />
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/lblSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            android:text="Subtitle"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+        <TextView
+            android:id="@+id/txtSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblSubtitle"
+            android:text="@{book.subtitle}"
+            tools:text="This is the Subtitle" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:group_visibility="@{book.subtitle}"
+            app:constraint_referenced_ids="lblSubtitle,txtSubtitle" />
+
+        <TextView
+            android:id="@+id/lblDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            android:text="Description"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSubtitle" />
+
+        <TextView
+            android:id="@+id/txtDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblDescription"
+            android:text="@{book.description}"
+            tools:text="This is the description" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:group_visibility="@{book.description}"
+            app:constraint_referenced_ids="lblDescription,txtDescription" />
+
+        <TextView
+            android:id="@+id/lblPublishDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            android:text="Publish date"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
+        <TextView
+            android:id="@+id/txtPublishDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPublishDate"
+            android:text="@{book.publishDate}"
+            tools:text="2020-02-27" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupPublishDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:group_visibility="@{book.publishDate}"
+            app:constraint_referenced_ids="lblPublishDate,txtPublishDate" />
+
+        <TextView
+            android:id="@+id/lblPages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            android:text="Number of pages"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPublishDate" />
+
+        <TextView
+            android:id="@+id/txtPages"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPages"
+            app:countPages="@{book.numberOfPages}"
+            tools:text="488" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

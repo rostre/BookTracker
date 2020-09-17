@@ -26,6 +26,7 @@ import ro.twodoors.booknotes.ui.ViewModelFactory
 import ro.twodoors.booknotes.ui.search.OnClickListener
 import ro.twodoors.booknotes.ui.search.SearchAdapter
 import ro.twodoors.booknotes.ui.search.SearchFragmentDirections
+import ro.twodoors.booknotes.utils.initToolbar
 
 
 class WorkDetailsFragment : Fragment() {
@@ -49,6 +50,7 @@ class WorkDetailsFragment : Fragment() {
         adapter.setupDoc(doc)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        initToolbar(binding.toolbar, true)
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.books.addItemDecoration(decoration)
         binding.retryButton.setOnClickListener { adapter.retry() }

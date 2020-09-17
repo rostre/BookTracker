@@ -8,8 +8,12 @@
     <string name="retry">Retry</string>
 
     <string name="number_of_pages">Number of pages: %1$d</string>
+    <string name="reading_progress">%1$d</string>
     <string name="published_year">Published: %1$s</string>
     <string name="isbn">ISBN: %1$s</string>
+    <string name="reading">Reading</string>
+    <string name="progress_percentage">%1$d %%</string>
+    <string name="cover_url">https://covers.openlibrary.org/b/olid/%1$s-L.jpg?default=false</string>
 
     <plurals name="editions_available">
         <item quantity="one">%1$d edition available</item>

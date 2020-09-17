@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.utils.SharedPrefsHelper
 
 
 class BooksViewModel(application: Application) : ViewModel() {

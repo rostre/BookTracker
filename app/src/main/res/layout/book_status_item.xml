@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="book"
+            type="ro.twodoors.booknotes.model.Book" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/general_margin_16dp">
+
+        <ImageView
+            android:id="@+id/ivBookCover"
+            android:layout_width="@dimen/cover_photo_width"
+            android:layout_height="@dimen/cover_photo_height"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars"
+            app:bookCover="@{book.cover.medium}"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/general_margin_16dp"
+            android:text="@{book.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+            app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Money - Master the Game" />
+
+        <TextView
+            android:id="@+id/tvAuthorNames"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            app:bookAuthors="@{book.authors}"
+            app:layout_constraintStart_toStartOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="Tony Robbins" />
+
+        <ProgressBar
+            android:id="@+id/progressReading"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/tvProgress"
+            android:max="@{book.numberOfPages}"
+            app:readPages="@{book.numberOfReadPages}"
+            app:totalPages="@{book.numberOfPages}"
+            app:progressTint="@{book.readingStatus}"
+            app:progressVisibility="@{book.readingStatus}"
+            tools:progress="20"
+            tools:progressTint="@color/red_favorite"
+            app:layout_constraintStart_toStartOf="@+id/tvAuthorNames"
+            app:layout_constraintTop_toBottomOf="@+id/tvAuthorNames" />
+
+        <TextView
+            android:id="@+id/tvProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:readPages="@{book.numberOfReadPages}"
+            app:totalPages="@{book.numberOfPages}"
+            app:labelVisibility="@{book.readingStatus}"
+            android:text="20 %"
+            app:layout_constraintBottom_toBottomOf="@+id/progressReading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/progressReading" />
+
+        <TextView
+            android:id="@+id/bookNumberOfPages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/ic_pages"
+            android:drawablePadding="@dimen/margin_8dp"
+            app:countPages="@{book.numberOfPages}"
+            tools:text="254"
+            app:layout_constraintStart_toStartOf="@+id/progressReading"
+            app:layout_constraintTop_toBottomOf="@+id/progressReading" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

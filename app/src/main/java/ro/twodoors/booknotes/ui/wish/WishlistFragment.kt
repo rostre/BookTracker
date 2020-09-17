@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import kotlinx.android.synthetic.main.wishlist_item.*
 import ro.twodoors.booknotes.databinding.FragmentWishlistBinding
-import ro.twodoors.booknotes.fader
+import ro.twodoors.booknotes.utils.fader
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.model.Doc
-import ro.twodoors.booknotes.scaler
-import ro.twodoors.booknotes.showToast
+import ro.twodoors.booknotes.utils.scaler
+import ro.twodoors.booknotes.utils.showToast
 import ro.twodoors.booknotes.ui.ViewModelFactory
 
 /**
@@ -44,6 +44,14 @@ class WishlistFragment : Fragment() {
             adapter.submitList(it)
         })
 
+        viewModel.navigateToBookDetail.observe(viewLifecycleOwner, Observer {book ->
+            book?.let {
+                this.findNavController()
+                    .navigate(WishlistFragmentDirections.actionWishlistToBookDetailsFragment(it))
+                viewModel.onBookClickedNavigated()
+            }
+        })
+
         return binding.root
     }
 
@@ -52,6 +60,7 @@ class WishlistFragment : Fragment() {
         when(view.id){
             removeFromWish.id -> removeFromWishlist(view, book)
             addToBooks.id -> addToMyBooks(view, book)
+            wishContainer.id -> viewModel.onBookClicked(book)
         }
     }
 

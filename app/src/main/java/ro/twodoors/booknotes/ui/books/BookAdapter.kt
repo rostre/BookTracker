@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.model.Book
+import ro.twodoors.booknotes.utils.SharedPrefsHelper
 
 class BookAdapter(
-    val adapterOnClick: (View, Book) -> Unit
-) : ListAdapter<Book, RecyclerView.ViewHolder>(BOOK_COMPARATOR) {
+    val adapterOnClick: (View, Book) -> Unit)
+    : ListAdapter<Book, RecyclerView.ViewHolder>(BOOK_COMPARATOR) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val bookItem = getItem(position)
@@ -31,4 +32,9 @@ class BookAdapter(
                 oldItem == newItem
         }
     }
+}
+
+enum class ItemType {
+    LIST,
+    GRID
 }

@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Category
-import ro.twodoors.booknotes.model.Converter
+import ro.twodoors.booknotes.utils.Converter
 
-@Database(entities = [Book::class, Category::class], version = 3, exportSchema = false)
+@Database(entities = [Book::class, Category::class], version = 9, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class BookDatabase : RoomDatabase() {
 
