@@ -9,13 +9,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.ReadingStatus
 
 class ReadingViewModel(application: Application) : ViewModel() {
 
     private val bookRepo = BookRepositoryImpl(application)
 
-    val books : LiveData<List<Book>> = bookRepo.getBookByStatus(ReadingStatus.Reading)
+    val books : LiveData<List<Book>> = bookRepo.getBooksByStatus(ReadingStatus.Reading)
+
+    val booksCount : LiveData<Int> = bookRepo.getBooksCountByStatus(ReadingStatus.Reading)
 
     fun removeBook(book: Book) = viewModelScope.launch(Dispatchers.IO){
         bookRepo.removeBook(book)

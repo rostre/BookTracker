@@ -15,8 +15,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //setSupportActionBar(toolbar)
-
         val host: NavHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = host.navController
         NavigationUI.setupWithNavController(bottom_nav_view, navController)
@@ -24,14 +22,18 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id) {
-                R.id.add -> hideBottomNav()
-                R.id.bookNotesFragment -> hideBottomNav()
+                R.id.add,
+                R.id.addBookNotesFragment,
+                R.id.bookNotesFragment,
+                R.id.viewNotesFragment,
+                R.id.search-> hideBottomNav()
                 else -> showBottomNav()
             }
         }
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
+        bottom_nav_view.itemIconTintList = null
         bottom_nav_view.setupWithNavController(navController)
     }
 

@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ro.twodoors.booknotes.model.Doc
 
-
 class SearchAdapter(val clickListener: OnClickListener) : PagingDataAdapter<Doc, ViewHolder>(
-    BOOK_COMPARATOR
+    DOC_COMPARATOR
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,7 +22,7 @@ class SearchAdapter(val clickListener: OnClickListener) : PagingDataAdapter<Doc,
     }
 
     companion object {
-        private val BOOK_COMPARATOR = object : DiffUtil.ItemCallback<Doc>() {
+        private val DOC_COMPARATOR = object : DiffUtil.ItemCallback<Doc>() {
             override fun areItemsTheSame(oldItem: Doc, newItem: Doc): Boolean =
                 oldItem.id == newItem.id
 
@@ -32,10 +31,6 @@ class SearchAdapter(val clickListener: OnClickListener) : PagingDataAdapter<Doc,
         }
     }
 }
-
-//class OnClickListener(val clickListener: (doc: Doc ) -> Unit){
-//    fun onClick(doc: Doc) = clickListener(doc)
-//}
 
 class OnClickListener(val clickListener: (entity: Any ) -> Unit){
     fun onClick(entity: Any) = clickListener(entity)

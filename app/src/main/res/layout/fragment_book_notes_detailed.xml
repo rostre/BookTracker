@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="book"
-            type="ro.twodoors.booknotes.model.Book" />
+            name="viewModel"
+            type="ro.twodoors.booknotes.ui.booknotesdetailed.BookNotesDetailedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
             android:id="@+id/lblPagesRead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pages read"
+            android:text="@string/pages_read"
             android:layout_margin="@dimen/general_margin_16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,10 +28,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
-            android:progress="@{book.numberOfReadPages}"
-            android:max="@{book.numberOfPages}"
+            android:paddingStart="@dimen/dimen_2dp"
+            android:paddingEnd="@dimen/dimen_2dp"
+            android:max="@{viewModel.book.numberOfPages}"
+            android:progress="@{viewModel.book.numberOfReadPages}"
             android:thumb="@drawable/custom_thumb"
             android:progressTint="@color/thumb_color"
             app:layout_constraintEnd_toStartOf="@+id/tvPagesRead"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@+id/tvSeparator"
             app:layout_constraintTop_toTopOf="@+id/tvPagesCount"
-            app:countPages="@={book.numberOfReadPages}"
+            app:countPages="@={viewModel.book.numberOfReadPages}"
             tools:text="0" />
 
         <TextView
@@ -54,14 +54,14 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@+id/tvPagesCount"
             app:layout_constraintTop_toTopOf="@+id/tvPagesCount"
-            android:text="/" />
+            android:text="@string/out_of" />
 
         <TextView
             android:id="@+id/tvPagesCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            app:countPages="@{book.numberOfPages}"
+            app:countPages="@{viewModel.book.numberOfPages}"
             tools:text="250"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblPagesRead" />
@@ -72,7 +72,7 @@
             android:id="@+id/lblStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status"
+            android:text="@string/status"
             android:layout_margin="@dimen/general_margin_16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBarPages" />
@@ -81,7 +81,7 @@
             android:id="@+id/txtStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:textStatus="@={book.readingStatus}"
+            app:textStatus="@={viewModel.book.readingStatus}"
             tools:text="Reading"
             android:drawableEnd="@drawable/ic_arrow_right_24"
             android:layout_margin="@dimen/general_margin_16dp"
@@ -89,22 +89,42 @@
             app:layout_constraintTop_toBottomOf="@+id/lblStatus" />
 
         <View
-            android:id="@+id/divider1"
+            android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="@dimen/general_margin_16dp"
-            android:background="?android:attr/listDivider"
+            android:layout_height="@dimen/dimen_1dp"
+            style="@style/DividerDetailsStyle"
             app:layout_constraintTop_toBottomOf="@id/txtStatus"/>
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/lblNotes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Button"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/notes"
+            android:layout_margin="@dimen/general_margin_16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <TextView
+            android:id="@+id/txtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bookNotes="@{viewModel.book.bookNotes}"
+            tools:text="Add note"
+            android:drawableEnd="@drawable/ic_arrow_right_24"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblNotes" />
+
+        <Button
+            android:id="@+id/btnUpdateBook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/red_favorite"
+            android:text="@string/save"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

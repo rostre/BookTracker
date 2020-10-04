@@ -2,10 +2,10 @@ package ro.twodoors.booknotes.ui.wish
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.model.Book
+import ro.twodoors.booknotes.utils.Utils.Companion.BOOK_COMPARATOR
 
 
 class WishlistAdapter(val adapterOnClick: (View, Book) -> Unit) : ListAdapter<Book, RecyclerView.ViewHolder>(
@@ -21,15 +21,5 @@ class WishlistAdapter(val adapterOnClick: (View, Book) -> Unit) : ListAdapter<Bo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return WishlistViewHolder.create(parent)
-    }
-
-    companion object {
-        private val BOOK_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
-            override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean =
-                oldItem == newItem
-        }
     }
 }

@@ -4,33 +4,19 @@ import androidx.room.TypeConverter
 import ro.twodoors.booknotes.model.Author
 import ro.twodoors.booknotes.model.Cover
 import ro.twodoors.booknotes.model.Subject
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
 
 class Converter {
 
-//    @TypeConverter
-//    fun fromList(list: List<String?>?): String? {
-//        val gson = Gson()
-//        return gson.toJson(list)
-//    }
-//
-//    @TypeConverter
-//    fun fromString(value: String?): List<String>? {
-//        val listType = object : TypeToken<List<String>>() {}.type
-//        return Gson().fromJson(value, listType)
-//    }
-
     @TypeConverter
-    fun fromList(authors: List<Author>): String {
-        return authors.joinToString { it.name }
+    fun fromList(authors: List<Author>?): String? {
+        return authors?.joinToString { it.name }
     }
 
-
     @TypeConverter
-    fun fromString(value: String): List<Author> {
-        val authors = value.split(",")
+    fun fromString(value: String?): List<Author>? {
+        val authors = value?.split(",")
         val list = mutableListOf<Author>()
-        authors.forEach { author ->
+        authors?.forEach { author ->
             with(list) { add(Author(name = author)) }
         }
         return list
@@ -71,5 +57,27 @@ class Converter {
     fun readingStatusToString(readingStatus: ReadingStatus?): String? {
         return readingStatus?.name
     }
+
+    //    @TypeConverter
+//    fun fromNotesToString(list: List<Note>?): String? {
+//        val value: StringBuilder = StringBuilder()
+//        if (list != null) {
+//            list.forEach { note ->
+//                value.append("startNote:").append(note.value).append(":endNote")
+//            }
+//            return value.toString()
+//        }
+//        return null
+//    }
+//
+//    @TypeConverter
+//    fun fromStringToNotes(value: String?): List<Note>? {
+//        val notes = value?.split("startNote:", ":endNote")
+//        val list = mutableListOf<Note>()
+//        notes?.forEach { note ->
+//            with(list) { add(Note(note)) }
+//        }
+//        return list
+//    }
 
 }

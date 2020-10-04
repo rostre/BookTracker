@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.databinding.WishlistItemBinding
 import ro.twodoors.booknotes.model.Book
 
-class WishlistViewHolder private constructor(val binding: WishlistItemBinding) : RecyclerView.ViewHolder(binding.root){
+class WishlistViewHolder
+private constructor(val binding: WishlistItemBinding) : RecyclerView.ViewHolder(binding.root){
 
     fun bindBooks(book: Book, adapterOnClick : (View, Book) -> Unit) {
         binding.apply {

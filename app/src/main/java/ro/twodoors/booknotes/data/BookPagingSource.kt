@@ -5,7 +5,6 @@ import retrofit2.HttpException
 import ro.twodoors.booknotes.api.LibraryService
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
-import ro.twodoors.booknotes.model.SearchCriteria
 import java.io.IOException
 
 private const val STARTING_PAGE_INDEX = 0

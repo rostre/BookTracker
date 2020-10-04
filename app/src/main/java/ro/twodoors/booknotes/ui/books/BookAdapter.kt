@@ -2,11 +2,10 @@ package ro.twodoors.booknotes.ui.books
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.utils.SharedPrefsHelper
+import ro.twodoors.booknotes.utils.Utils.Companion.BOOK_COMPARATOR
 
 class BookAdapter(
     val adapterOnClick: (View, Book) -> Unit)
@@ -23,18 +22,4 @@ class BookAdapter(
         return BooksViewHolder.create(parent)
     }
 
-    companion object {
-        private val BOOK_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
-            override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean =
-                oldItem == newItem
-        }
-    }
-}
-
-enum class ItemType {
-    LIST,
-    GRID
 }

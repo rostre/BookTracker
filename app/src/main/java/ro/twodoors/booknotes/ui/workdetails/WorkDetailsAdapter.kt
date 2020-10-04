@@ -11,7 +11,7 @@ import ro.twodoors.booknotes.ui.search.SearchViewHolder
 
 
 class WorkDetailsAdapter (val clickListener: OnClickListener) : PagingDataAdapter<Book, RecyclerView.ViewHolder>(
-    BOOK_COMPARATOR
+    BOOK_COMPARATOR_URL
 ) {
 
     private var doc: Doc? = null
@@ -33,7 +33,7 @@ class WorkDetailsAdapter (val clickListener: OnClickListener) : PagingDataAdapte
     }
 
     companion object {
-        private val BOOK_COMPARATOR = object : DiffUtil.ItemCallback<Book>() {
+        private val BOOK_COMPARATOR_URL = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean =
                 oldItem.url == newItem.url
 

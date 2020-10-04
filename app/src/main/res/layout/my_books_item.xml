@@ -10,6 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/booksContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_8dp">
@@ -26,26 +27,34 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/general_margin_16dp"
             android:layout_marginTop="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{book.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivBookCover"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Money - Master the Game" />
 
         <TextView
             android:id="@+id/tvAuthorNames"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            app:bookAuthors="@{book.authors}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            app:bookAuthors="@{book.authors}"
-            tools:text="Tony Robbins"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
+            tools:text="Tony Robbins" />
 
         <ImageView
             android:id="@+id/deleteBook"

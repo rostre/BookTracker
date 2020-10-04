@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/general_margin_16dp"
             android:drawableStart="@drawable/ic_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -37,7 +37,7 @@
             android:id="@+id/chips_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="@dimen/general_margin_16dp"
             app:layout_constraintBottom_toBottomOf="@+id/lblFilter"
             app:layout_constraintStart_toEndOf="@+id/lblFilter"
             app:layout_constraintTop_toTopOf="@+id/lblFilter"
@@ -50,55 +50,55 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Keywords" />
+                app:chipBackgroundColor="@drawable/selector_chip_color"
+                android:text="@string/keywords" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title" />
+                app:chipBackgroundColor="@drawable/selector_chip_color"
+                android:text="@string/title" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Author" />
+                app:chipBackgroundColor="@drawable/selector_chip_color"
+                android:text="@string/author" />
 
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ISBN" />
 
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:theme="@style/ThemeTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/general_margin_16dp"
+            android:layout_marginStart="@dimen/general_margin_16dp"
+            android:layout_marginEnd="@dimen/general_margin_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblFilter">
+            app:layout_constraintTop_toBottomOf="@+id/lblFilter"
+            app:endIconMode="clear_text">
 
             <EditText
                 android:id="@+id/search_book"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionSearch"
-                android:inputType="textNoSuggestions"
+                android:inputType="textCapSentences"
                 android:selectAllOnFocus="true"
-                android:hint="Search books by keywords"/>
+                android:hint="@string/search_books_by_keywords"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bookList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/general_margin_16dp"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

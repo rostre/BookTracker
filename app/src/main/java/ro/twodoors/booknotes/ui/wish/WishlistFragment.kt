@@ -17,9 +17,7 @@ import ro.twodoors.booknotes.utils.scaler
 import ro.twodoors.booknotes.utils.showToast
 import ro.twodoors.booknotes.ui.ViewModelFactory
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class WishlistFragment : Fragment() {
 
     private lateinit var binding: FragmentWishlistBinding
@@ -29,19 +27,27 @@ class WishlistFragment : Fragment() {
     }
     private val adapter = WishlistAdapter {  view, book -> adapterOnClick(view, book ) }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWishlistBinding.inflate(layoutInflater)
-        binding.wishlistBooks.adapter = adapter
 
+        setupRecyclerView()
+        subscribeUi()
+        return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        binding.wishlistBooks.adapter = adapter
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.wishlistBooks.addItemDecoration(decoration)
+    }
 
+    private fun subscribeUi() {
         viewModel.allBooksFromWishlist.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            binding.toolbar.title = "Wishlist (${it.count()})"
         })
 
         viewModel.navigateToBookDetail.observe(viewLifecycleOwner, Observer {book ->
@@ -51,8 +57,6 @@ class WishlistFragment : Fragment() {
                 viewModel.onBookClickedNavigated()
             }
         })
-
-        return binding.root
     }
 
 

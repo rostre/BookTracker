@@ -25,30 +25,34 @@
             android:layout_width="60dp"
             android:layout_height="80dp"
             android:layout_margin="@dimen/margin_8dp"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars"
-            app:detailCover="@{book.cover.medium}"/>
+            app:bookCover="@{book.cover.medium}"/>
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/general_margin_16dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{book.title}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivCover"
             app:layout_constraintTop_toTopOf="@+id/ivCover"
-            android:text="@{book.title}"
             tools:text="Lord Of The Rings" />
 
         <TextView
             android:id="@+id/tvPublishedYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/tvTitle"
-            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            android:layout_marginTop="@dimen/margin_8dp"
+            app:layout_constraintStart_toStartOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:published="@{book.publishDate}"
             tools:text="Published: 2005" />
 
@@ -56,8 +60,8 @@
             android:id="@+id/tvNumberOfPages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/general_margin_16dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             app:layout_constraintStart_toEndOf="@+id/ivCover"
             app:layout_constraintTop_toBottomOf="@+id/tvPublishedYear"
             app:pages="@{book.numberOfPages}"
@@ -67,11 +71,13 @@
             android:id="@+id/tvIsbn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="@dimen/general_margin_16dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginBottom="@dimen/margin_8dp"
+            app:isbn="@{isbn}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivCover"
             app:layout_constraintTop_toBottomOf="@+id/tvNumberOfPages"
-            app:isbn="@{isbn}"
             tools:text="ISBN: 2005345678123" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

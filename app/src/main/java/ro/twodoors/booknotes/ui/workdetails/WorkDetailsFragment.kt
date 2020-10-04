@@ -39,7 +39,6 @@ class WorkDetailsFragment : Fragment() {
     private val adapter = WorkDetailsAdapter(OnClickListener{ book -> viewModel.onBookClicked(book as Book) })
     private var searchJob: Job? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {

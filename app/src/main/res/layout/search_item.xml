@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="@dimen/margin_8dp"
         android:onClick="@{() -> clickListener.onClick(doc)}">
 
         <ImageView
@@ -30,26 +30,34 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/general_margin_16dp"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{doc.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bookCover"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Money - Master the Game" />
 
         <TextView
             android:id="@+id/author"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:layout_marginEnd="@dimen/margin_8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
+            app:authors="@{doc.authorName}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            app:authors="@{doc.authorName}"
-            tools:text="Tony Robbins"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
+            tools:text="Tony Robbins" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

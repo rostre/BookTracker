@@ -2,7 +2,7 @@ package ro.twodoors.booknotes.db
 
 import androidx.lifecycle.LiveData
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.ReadingStatus
 
 interface BookRepository {
 
@@ -14,7 +14,9 @@ interface BookRepository {
 
     fun getBook(id: String) : LiveData<Book>
 
-    fun getBookByStatus(readingStatus: ReadingStatus) : LiveData<List<Book>>
+    fun getBooksByStatus(readingStatus: ReadingStatus) : LiveData<List<Book>>
+
+    fun getBooksCountByStatus(readingStatus: ReadingStatus) : LiveData<Int>
 
     fun isWishlisted(id: String) : LiveData<Boolean>
 

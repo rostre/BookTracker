@@ -13,7 +13,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/general_margin_16dp">
+        android:padding="@dimen/margin_8dp">
 
         <ImageView
             android:id="@+id/ivBookCover"
@@ -27,22 +27,28 @@
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/general_margin_16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{book.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivBookCover"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Money - Master the Game" />
 
         <TextView
             android:id="@+id/tvAuthorNames"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
             app:bookAuthors="@{book.authors}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="Tony Robbins" />
@@ -52,8 +58,8 @@
             style="@android:style/Widget.Material.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="@dimen/general_margin_16dp"
+            android:layout_marginEnd="@dimen/general_margin_16dp"
             app:layout_constraintEnd_toStartOf="@+id/tvProgress"
             android:max="@{book.numberOfPages}"
             app:readPages="@{book.numberOfReadPages}"
@@ -69,11 +75,11 @@
             android:id="@+id/tvProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/general_margin_16dp"
             app:readPages="@{book.numberOfReadPages}"
             app:totalPages="@{book.numberOfPages}"
             app:labelVisibility="@{book.readingStatus}"
-            android:text="20 %"
+            tools:text="20 %"
             app:layout_constraintBottom_toBottomOf="@+id/progressReading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/progressReading" />
@@ -82,7 +88,7 @@
             android:id="@+id/bookNumberOfPages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:drawableStart="@drawable/ic_pages"
             android:drawablePadding="@dimen/margin_8dp"
             app:countPages="@{book.numberOfPages}"

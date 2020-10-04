@@ -1,22 +1,59 @@
 <resources>
     <string name="app_name">Book Notes</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="books">Books</string>
-    <string name="add">Add</string>
-    <string name="wishlist">Wishlist</string>
-    <string name="retry">Retry</string>
-
-    <string name="number_of_pages">Number of pages: %1$d</string>
-    <string name="reading_progress">%1$d</string>
-    <string name="published_year">Published: %1$s</string>
-    <string name="isbn">ISBN: %1$s</string>
-    <string name="reading">Reading</string>
-    <string name="progress_percentage">%1$d %%</string>
-    <string name="cover_url">https://covers.openlibrary.org/b/olid/%1$s-L.jpg?default=false</string>
-
     <plurals name="editions_available">
         <item quantity="one">%1$d edition available</item>
         <item quantity="other">%1$d editions available</item>
     </plurals>
+
+    <!--    Reading books-->
+    <string name="no_reading_books">No books in progress</string>
+    <string name="reading_books">You are reading now</string>
+    <plurals name="books">
+        <item quantity="one">%1$d book</item>
+        <item quantity="other">%1$d books</item>
+    </plurals>
+
+    <!--    Read books-->
+    <string name="no_read_books">You haven\'t read yet any book. Start reading!</string>
+    <string name="read_books">You have read</string>
+
+    <!--    Quitted books-->
+    <string name="no_quitted_books">You haven\'t quit reading any book</string>
+    <string name="quitted_books">You have quit reading</string>
+
+    <!--    Unread books-->
+    <string name="no_unread_books">You have no books to read</string>
+
+    <!--    Labels-->
+    <string name="add_note">Add note</string>
+    <string name="author">Author</string>
+    <string name="authors">Author(s)</string>
+    <string name="books">Books</string>
+    <string name="cover_url">https://covers.openlibrary.org/b/olid/%1$s-L.jpg?default=false</string>
+    <string name="description">Description</string>
+    <string name="done">done</string>
+    <string name="enter_text">Enter text</string>
+    <string name="isbn">ISBN: %1$s</string>
+    <string name="keywords">Keywords</string>
+    <string name="no_of_pages">Number of pages</string>
+    <string name="no_subjects_available">No subjects available</string>
+    <string name="not_available">N/A</string>
+    <string name="notes">Notes</string>
+    <string name="number_of_pages">Number of pages: %1$d</string>
+    <string name="out_of">/</string>
+    <string name="pages_read">Pages read</string>
+    <string name="progress_percentage">%1$d %%</string>
+    <string name="publish_date">Publish date</string>
+    <string name="published_year">Published: %1$s</string>
+    <string name="reading">Reading</string>
+    <string name="retry">Retry</string>
+    <string name="save">Save</string>
+    <string name="search_books_by_keywords">Search books by keywords</string>
+    <string name="status">Status</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="title">Title</string>
+    <string name="view_notes">View notes</string>
+    <string name="wishlist">Wishlist</string>
+
 </resources>

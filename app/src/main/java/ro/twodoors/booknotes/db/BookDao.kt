@@ -5,13 +5,12 @@ import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Category
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.ReadingStatus
 
 @Dao
 interface BookDao {
 
     @Query("SELECT * FROM book_table WHERE wishlist = 0 ORDER BY dateAdded DESC")
-//    @Query("SELECT * FROM book_table ORDER BY title")
     fun getAllBooks() : LiveData<List<Book>>
 
     @Query("SELECT * FROM book_table WHERE wishlist = 1 ORDER BY dateAdded DESC")
@@ -24,7 +23,10 @@ interface BookDao {
     fun getBook(id: String) : LiveData<Book>
 
     @Query("SELECT * FROM book_table WHERE readingStatus = :status ORDER BY dateAdded DESC")
-    fun getBookByStatus(status: ReadingStatus) : LiveData<List<Book>>
+    fun getBooksByStatus(status: ReadingStatus) : LiveData<List<Book>>
+
+    @Query("SELECT COUNT(*) FROM book_table WHERE readingStatus = :status")
+    fun getBooksCountByStatus(status: ReadingStatus) : LiveData<Int>
 
     @Query("SELECT wishlist FROM book_table WHERE id = :id")
     fun isWishlisted(id: String) : LiveData<Boolean>

@@ -5,29 +5,38 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_books.*
+import kotlinx.android.synthetic.main.my_books_grid_item.*
+import kotlinx.android.synthetic.main.my_books_item.*
 import ro.twodoors.booknotes.R
 import ro.twodoors.booknotes.databinding.FragmentBooksBinding
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.utils.scaler
-import ro.twodoors.booknotes.utils.showToast
 import ro.twodoors.booknotes.ui.ViewModelFactory
-import ro.twodoors.booknotes.utils.SharedPrefsHelper
-import ro.twodoors.booknotes.utils.initToolbar
+import ro.twodoors.booknotes.utils.*
 
 class BooksFragment : Fragment() {
 
     private lateinit var binding: FragmentBooksBinding
-
     private val viewModel: BooksViewModel by lazy {
         val activity =  requireNotNull(this.activity)
         ViewModelProvider(this, ViewModelFactory(activity.application)).get(BooksViewModel::class.java)
     }
-    private val onClick : (View, Book) -> Unit = { view, book -> removeBook(view, book)}
+    private val onClick : (View, Book) -> Unit = { view, book -> adapterOnClick(view, book)}
+
+    private fun adapterOnClick(view: View, book: Book) {
+        when(view.id){
+            deleteBook?.id -> removeBook(view, book)
+            booksContainer?.id -> viewModel.onBookClicked(book)
+            gridContainer?.id -> viewModel.onBookClicked(book)
+        }
+    }
+
     private val adapter = BookAdapter(onClick)
 
     private fun removeBook(view: View, book: Book) {
@@ -47,17 +56,51 @@ class BooksFragment : Fragment() {
 
         binding = FragmentBooksBinding.inflate(layoutInflater)
         initToolbar(binding.toolbar)
+
+        setupRecyclerView()
+        setupFab()
+        subscribeUi()
+
+        return binding.root
+    }
+
+
+    private fun setupRecyclerView(){
         binding.myBooks.layoutManager = getLayoutManager()
         binding.myBooks.adapter = adapter
+        binding.myBooks.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && fab.visibility == View.VISIBLE){
+                    fab.hide()
+                } else if (dy < 0 && fab.visibility != View.VISIBLE)
+                    fab.show()
+            }
+        })
 
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.myBooks.addItemDecoration(decoration)
+    }
 
+    private fun setupFab() {
+        binding.fab.setOnClickListener {
+            it?.findNavController()?.navigate(R.id.search)
+        }
+    }
+
+    private fun subscribeUi(){
         viewModel.allBooks.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            binding.toolbar.title = "Bookshelf (${it.count()})"
         })
 
-        return binding.root
+        viewModel.navigateToBookDetail.observe(viewLifecycleOwner, Observer {book ->
+            book?.let {
+                this.findNavController()
+                    .navigate(BooksFragmentDirections.actionBooksToBookNotesFragment(it.id))
+                viewModel.onBookClickedNavigated()
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

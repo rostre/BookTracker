@@ -9,8 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.model.Doc
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.ReadingStatus
 import ro.twodoors.booknotes.utils.getCurrentDateTime
 
 class WishlistViewModel (application: Application) : ViewModel() {

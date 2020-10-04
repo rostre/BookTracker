@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="book"
-            type="ro.twodoors.booknotes.model.Book" />
+            name="viewModel"
+            type="ro.twodoors.booknotes.ui.bookinfodetailed.BookInfoDetailedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:text="Title"
+            android:text="@string/title"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,39 +32,53 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblTitle"
-            android:text="@{book.title}"
+            android:text="@{viewModel.book.title}"
             tools:text="This is the title" />
+
+        <View
+            android:id="@+id/dividerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp"
+            style="@style/DividerDetailsStyle"
+            app:layout_constraintTop_toBottomOf="@id/txtTitle"/>
 
         <TextView
             android:id="@+id/lblAuthors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:text="Author(s)"
+            android:text="@string/authors"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/dividerTitle" />
 
         <TextView
             android:id="@+id/txtAuthors"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            app:bookAuthors="@{book.authors}"
+            app:bookAuthors="@{viewModel.book.authors}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblAuthors"
             tools:text="Tony Robbins" />
+
+        <View
+            android:id="@+id/dividerAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp"
+            style="@style/DividerDetailsStyle"
+            app:layout_constraintTop_toBottomOf="@id/txtAuthors"/>
 
         <TextView
             android:id="@+id/lblSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:text="Subtitle"
+            android:text="@string/subtitle"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtAuthors" />
+            app:layout_constraintTop_toBottomOf="@+id/dividerAuthor" />
 
         <TextView
             android:id="@+id/txtSubtitle"
@@ -74,25 +88,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblSubtitle"
-            android:text="@{book.subtitle}"
+            android:text="@{viewModel.book.subtitle}"
             tools:text="This is the Subtitle" />
+
+        <View
+            android:id="@+id/dividerSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            style="@style/DividerDetailsStyle"
+            app:layout_constraintTop_toBottomOf="@id/txtSubtitle"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:group_visibility="@{book.subtitle}"
-            app:constraint_referenced_ids="lblSubtitle,txtSubtitle" />
+            app:group_visibility="@{viewModel.book.subtitle}"
+            app:constraint_referenced_ids="lblSubtitle,txtSubtitle,dividerSubtitle" />
 
         <TextView
             android:id="@+id/lblDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:text="Description"
+            android:text="@string/description"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtSubtitle" />
+            app:layout_constraintTop_toBottomOf="@+id/dividerSubtitle" />
 
         <TextView
             android:id="@+id/txtDescription"
@@ -102,25 +123,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblDescription"
-            android:text="@{book.description}"
+            android:text="@{viewModel.book.description}"
             tools:text="This is the description" />
+
+        <View
+            android:id="@+id/dividerDescription"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            style="@style/DividerDetailsStyle"
+            app:layout_constraintTop_toBottomOf="@id/txtDescription"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:group_visibility="@{book.description}"
-            app:constraint_referenced_ids="lblDescription,txtDescription" />
+            app:group_visibility="@{viewModel.book.description}"
+            app:constraint_referenced_ids="lblDescription,txtDescription,dividerDescription" />
 
         <TextView
             android:id="@+id/lblPublishDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:text="Publish date"
+            android:text="@string/publish_date"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/dividerDescription" />
 
         <TextView
             android:id="@+id/txtPublishDate"
@@ -130,25 +158,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblPublishDate"
-            android:text="@{book.publishDate}"
+            android:text="@{viewModel.book.publishDate}"
             tools:text="2020-02-27" />
+
+        <View
+            android:id="@+id/dividerPublishDate"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp"
+            style="@style/DividerDetailsStyle"
+            app:layout_constraintTop_toBottomOf="@id/txtPublishDate"/>
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupPublishDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:group_visibility="@{book.publishDate}"
-            app:constraint_referenced_ids="lblPublishDate,txtPublishDate" />
+            app:group_visibility="@{viewModel.book.publishDate}"
+            app:constraint_referenced_ids="lblPublishDate,txtPublishDate,dividerPublishDate" />
 
         <TextView
             android:id="@+id/lblPages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:text="Number of pages"
+            android:text="@string/no_of_pages"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPublishDate" />
+            app:layout_constraintTop_toBottomOf="@+id/dividerPublishDate" />
 
         <TextView
             android:id="@+id/txtPages"
@@ -158,7 +193,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lblPages"
-            app:countPages="@{book.numberOfPages}"
+            app:countPages="@{viewModel.book.numberOfPages}"
             tools:text="488" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,13 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.reading.unread.UnreadFragment">
 
+    <TextView
+        android:id="@+id/lblUnreadBooks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/general_margin_16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="You have 1 book to read" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/unreadBooks"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/general_margin_16dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblUnreadBooks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

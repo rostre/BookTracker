@@ -23,7 +23,6 @@ class Repository(private val service: LibraryService) {
     fun getBooksResultStream(doc: Doc): Flow<PagingData<Book>> {
         Log.d("Repository", doc.id)
         return Pager(
-            //config = PagingConfig(pageSize = doc.isbn?.size ?:0, enablePlaceholders = false),
             config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { BookPagingSource(service, doc ) }
         ).flow

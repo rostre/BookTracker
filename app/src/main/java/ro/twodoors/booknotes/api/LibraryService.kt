@@ -11,11 +11,6 @@ interface LibraryService {
     @GET("api/books?format=json&jscmd=data")
     suspend fun getBook(@Query("bibkeys") searchQuery: String): HashMap<String, Book>
 
-//    @GET("api/books")
-//    suspend fun getBook(@Query("bibkeys") searchQuery: String,
-//                        @Query("format") format: String ="json",
-//                        @Query("jscmd") jscmd: String = "data"): HashMap<String, Book>
-
     @GET("/search.json")
     suspend fun search(
         @Query("q") query: String,

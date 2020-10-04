@@ -43,15 +43,11 @@ class BookNotesFragment : Fragment() {
         return binding.root
     }
 
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        setupAdapter()
-//    }
 
     private fun setupAdapter() {
         viewModel.book.observe(viewLifecycleOwner, Observer {
             binding.viewPager.adapter =
-                BookNotesPagerAdapter(this.childFragmentManager, it)
+                BookNotesPagerAdapter(this.childFragmentManager, it.id)
         })
         binding.tabLayout.setupWithViewPager(binding.viewPager, true)
     }

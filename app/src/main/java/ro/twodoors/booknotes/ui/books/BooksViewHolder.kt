@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ro.twodoors.booknotes.databinding.MyBooksGridItemBinding
 import ro.twodoors.booknotes.databinding.MyBooksItemBinding
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.model.Doc
+import ro.twodoors.booknotes.utils.ItemType
 import ro.twodoors.booknotes.utils.SharedPrefsHelper
 
 class BooksViewHolder
@@ -20,6 +20,7 @@ class BooksViewHolder
                 binding as MyBooksGridItemBinding
                 binding.apply {
                     this.book = book
+                    gridContainer.setOnClickListener { adapterOnClick(it, book)}
                     executePendingBindings()
                 }
             }
@@ -27,6 +28,7 @@ class BooksViewHolder
             binding as MyBooksItemBinding
             binding.apply {
                 this.book = book
+                booksContainer.setOnClickListener { adapterOnClick(it, book)}
                 deleteBook.setOnClickListener { adapterOnClick (it, book)}
                 executePendingBindings()
             }

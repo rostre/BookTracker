@@ -2,9 +2,6 @@ package ro.twodoors.booknotes.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize

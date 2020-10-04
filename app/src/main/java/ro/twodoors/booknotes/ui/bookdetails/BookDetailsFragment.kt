@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import ro.twodoors.booknotes.R
 import ro.twodoors.booknotes.databinding.FragmentBookDetailsBinding
 import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Subject
@@ -88,12 +89,11 @@ class BookDetailsFragment : Fragment() {
             isCheckedIconVisible = false
             isClickable = false
             isCheckable = false
-            //setTextColor(context.getColorStateList(R.color.chip_text))
         }
 
     private fun onSubjectsEmpty(chipGroup: ChipGroup) {
         val emptyChip = Chip(context).apply {
-            text = "No subjects available"
+            text = context.getString(R.string.no_subjects_available)
             isCheckable = false
             isClickable = false
         }

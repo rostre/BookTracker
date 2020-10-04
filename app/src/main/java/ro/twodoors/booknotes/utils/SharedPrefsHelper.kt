@@ -2,7 +2,6 @@ package ro.twodoors.booknotes.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import ro.twodoors.booknotes.ui.books.ItemType
 
 const val BOOKS = "books"
 const val ITEM_TYPE_KEY = "item_type_key"

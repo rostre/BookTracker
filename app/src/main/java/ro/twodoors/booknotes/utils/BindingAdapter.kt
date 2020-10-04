@@ -1,12 +1,20 @@
 package ro.twodoors.booknotes.utils
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.Group
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -16,26 +24,34 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.BlurTransformation
 import ro.twodoors.booknotes.R
 import ro.twodoors.booknotes.model.Author
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
 import java.util.*
+
+// Book Item
+const val BOOK_COVER_WIDTH_140 = 140
+const val BOOK_COVER_HEIGHT_200 = 200
+
+// Work Details
+const val BOOK_COVER_WIDTH_90 = 90
+const val BOOK_COVER_HEIGHT_140 = 140
 
 @BindingAdapter("app:authors")
 fun TextView.setAuthors(authors : List<String>?){
-    this.text = authors?.joinToString().orEmpty()
+    this.text = authors?.joinToString()
 }
 
 @BindingAdapter("app:bookAuthors")
 fun TextView.setBookAuthors(authors : List<Author>?){
-    this.text = authors?.joinToString { it.name }
+    if (authors ==  null)
+        this.text = resources.getString(R.string.not_available)
+    else
+        this.text = authors.joinToString { it.name }
 }
-
 
 @BindingAdapter("app:cover")
 fun ImageView.setCover(coverId: String?){
     Picasso.get().load(resources.getString(R.string.cover_url, coverId))
-        .placeholder(R.drawable.ic_image_search)
-        .error(R.drawable.ic_photo_black_24dp)
-        .resize(80.toDP(), 100.toDP())
+        .placeholder(R.drawable.ic_book_cover_unavailable)
+        .resize(BOOK_COVER_WIDTH_140.toDP(), BOOK_COVER_HEIGHT_200.toDP())
         .centerInside()
         .into(this)
 }
@@ -43,19 +59,8 @@ fun ImageView.setCover(coverId: String?){
 @BindingAdapter("app:bookCover")
 fun ImageView.setBookCover(coverUrl: String?){
     Picasso.get().load(coverUrl)
-        .placeholder(R.drawable.ic_image_search)
-        .error(R.drawable.ic_photo_black_24dp)
-        .resize(80.toDP(), 100.toDP())
-        .centerInside()
-        .into(this)
-}
-
-@BindingAdapter("app:detailCover")
-fun ImageView.setDetailCover(coverUrl: String?){
-    Picasso.get().load(coverUrl)
-        .placeholder(R.drawable.ic_image_search)
-        .error(R.drawable.ic_photo_black_24dp)
-        .resize(140.toDP(), 200.toDP())
+        .placeholder(R.drawable.ic_book_cover_unavailable)
+        .resize(BOOK_COVER_WIDTH_90.toDP(), BOOK_COVER_HEIGHT_140.toDP())
         .centerInside()
         .into(this)
 }
@@ -76,7 +81,7 @@ fun TextView.setEditions(numberOfEditions : Int){
 @BindingAdapter("app:pages")
 fun TextView.setnumberOfPages(numberOfPages : Int){
     when(numberOfPages){
-        0 -> this.text = "N/A"
+        0 -> this.text = resources.getString(R.string.not_available)
         else -> this.text = resources.getString(R.string.number_of_pages, numberOfPages)
     }
 }
@@ -95,7 +100,7 @@ fun getNumberOfPages(view: TextView) : Int {
 @BindingAdapter(value = ["countPagesAttrChanged"])
 fun setCountPagesAttrChangedListener(view: TextView, listener: InverseBindingListener){
     val textWatcher : TextWatcher = view.doOnTextChanged {
-            text, start, before, count ->
+            _, _, _, _ ->
         listener.onChange()
     }
 
@@ -146,51 +151,81 @@ fun ProgressBar.setProgressTint(readingStatus: ReadingStatus){
     when(readingStatus){
         ReadingStatus.Reading ->
             this.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.progress_reading, null))
-            //this.progressBackgroundTintList
 
         ReadingStatus.Read ->
             this.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.progress_read, null))
-            //this.progressBackgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.progress_read, null))
-        else ->
 
+        else ->
             this.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.progress_quit, null))
-//            this.progressBackgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.progress_quit, null))
+
     }
 }
 
 @BindingAdapter("app:textStatusStyled")
 fun TextView.setTextStatusStyled(readingStatus: ReadingStatus?){
     when(readingStatus){
-        ReadingStatus.Reading ->
-            this.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.progress_reading, null)))
+        ReadingStatus.Reading ->{
+            val color = resources.getColor(R.color.progress_reading, null)
+            setupColors(context, this, color)
+        }
 
-        ReadingStatus.Read ->
-            this.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.progress_read, null)))
+        ReadingStatus.Read ->{
+            val color = resources.getColor(R.color.progress_read, null)
+            setupColors(context, this, color)
+        }
 
-        ReadingStatus.Unread ->
-            this.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.progress_unread, null)))
+        ReadingStatus.Unread -> {
+            val color = resources.getColor(R.color.progress_unread, null)
+            setupColors(context, this, color)
+        }
 
-        ReadingStatus.Quitted ->
-            this.setTextColor(ColorStateList.valueOf(resources.getColor(R.color.progress_quit, null)))
+        ReadingStatus.Quit -> {
+            val color = resources.getColor(R.color.progress_quit, null)
+            setupColors(context, this, color)
+        }
+
     }
-    this.text = readingStatus?.name
+    this.text = readingStatus?.name?.toUpperCase()
+}
+
+fun setupColors(context: Context, textView: TextView, color: Int){
+    textView.setTextColor(ColorStateList.valueOf(color))
+    textView.setCompoundDrawablesWithIntrinsicBounds(
+        setStartDrawable(context, color),
+        null, null, null)
+    textView.background = setBackground(color)
+}
+
+fun setBackground(color : Int) : GradientDrawable {
+    return GradientDrawable().apply {
+        cornerRadius = 48F
+        setColor(ColorUtils.blendARGB(color, Color.WHITE, 0.8F))
+    }
+}
+
+fun setStartDrawable(context: Context, color: Int) : Drawable? {
+    val drawable = ContextCompat.getDrawable(context, R.drawable.ic_time)
+    drawable?.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+    return drawable
 }
 
 @BindingAdapter("app:textStatus")
-fun TextView.setTextStatus(readingStatus: ReadingStatus){
-    if (this.text != readingStatus.name)
-        this.text = readingStatus.name
+fun TextView.setTextStatus(readingStatus: ReadingStatus?){
+    if (this.text != readingStatus?.name)
+        this.text = readingStatus?.name
 }
 
 @InverseBindingAdapter(attribute = "app:textStatus", event = "textStatusAttrChanged")
-fun getTextStatus(view: TextView) : ReadingStatus {
+fun getTextStatus(view: TextView) : ReadingStatus? {
+    if (view.text.toString().isEmpty())
+        return null
     return ReadingStatus.valueOf(view.text.toString())
 }
 
 @BindingAdapter(value = ["textStatusAttrChanged"])
 fun setListener(view: TextView, listener: InverseBindingListener){
     val textWatcher : TextWatcher = view.doOnTextChanged {
-            text, start, before, count ->
+            _, _, _, _ ->
         listener.onChange()
     }
 
@@ -201,12 +236,19 @@ fun setListener(view: TextView, listener: InverseBindingListener){
     view.addTextChangedListener(textWatcher)
 }
 
+@BindingAdapter("app:bookNotes")
+fun TextView.setBookNotes(bookNotes: String?){
+    if (bookNotes.isNullOrEmpty())
+        this.text = resources.getString(R.string.add_note)
+    else
+        this.text = resources.getString(R.string.view_notes)
+}
+
 @BindingAdapter("app:published")
 fun TextView.setPublishedDate(publishedDate : String?){
     publishedDate?.let {
         this.text = resources.getString(R.string.published_year, publishedDate)
     }
-
 }
 
 @BindingAdapter("app:isbn")

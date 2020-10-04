@@ -3,7 +3,7 @@ package ro.twodoors.booknotes.db
 import android.app.Application
 import androidx.lifecycle.LiveData
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.ReadingStatus
 
 class BookRepositoryImpl(app: Application) : BookRepository {
 
@@ -17,7 +17,9 @@ class BookRepositoryImpl(app: Application) : BookRepository {
 
     override fun getBook(id: String): LiveData<Book> = bookDao.getBook(id)
 
-    override fun getBookByStatus(readingStatus: ReadingStatus): LiveData<List<Book>> = bookDao.getBookByStatus(readingStatus)
+    override fun getBooksByStatus(readingStatus: ReadingStatus): LiveData<List<Book>> = bookDao.getBooksByStatus(readingStatus)
+
+    override fun getBooksCountByStatus(readingStatus: ReadingStatus): LiveData<Int> = bookDao.getBooksCountByStatus(readingStatus)
 
     override fun isWishlisted(id: String): LiveData<Boolean> = bookDao.isWishlisted(id)
 

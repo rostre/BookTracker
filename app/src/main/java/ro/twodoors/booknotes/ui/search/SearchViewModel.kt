@@ -1,24 +1,19 @@
 package ro.twodoors.booknotes.ui.search
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.api.LibraryService
 import ro.twodoors.booknotes.data.Repository
-import ro.twodoors.booknotes.db.BookRepositoryImpl
-import ro.twodoors.booknotes.model.Book
 import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
 
 
-class SearchViewModel(application: Application) : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<Doc>>? = null

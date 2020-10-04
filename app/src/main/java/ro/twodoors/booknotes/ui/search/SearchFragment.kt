@@ -29,6 +29,7 @@ import ro.twodoors.booknotes.model.Doc
 import ro.twodoors.booknotes.model.SearchCriteria
 import ro.twodoors.booknotes.ui.BooksLoadStateAdapter
 import ro.twodoors.booknotes.ui.ViewModelFactory
+import ro.twodoors.booknotes.utils.initToolbar
 
 private const val SEARCH_BOOKS_BY = "Search books by"
 
@@ -53,12 +54,14 @@ class SearchFragment :  Fragment() {
         binding = FragmentSearchBinding.inflate(layoutInflater)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        initToolbar(binding.toolbar, true)
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         binding.bookList.addItemDecoration(decoration)
 
         binding.chipsGroup.setOnCheckedChangeListener { chipGroup, checkedId ->
             val titleOrNull = chipGroup.findViewById<Chip>(checkedId)?.text.toString()
             binding.inputLayout.hint = "$SEARCH_BOOKS_BY ${titleOrNull.toLowerCase()}"
+            binding.searchBook.text = null
             searchCriteria = SearchCriteria.valueOf(titleOrNull)
         }
 
@@ -130,7 +133,7 @@ class SearchFragment :  Fragment() {
                 .distinctUntilChangedBy { it.refresh }
                 // Only react to cases where Remote REFRESH completes i.e., NotLoading.
                 .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.bookList.scrollToPosition(0) }
+                //.collect { binding.bookList.scrollToPosition(0) }
         }
     }
 

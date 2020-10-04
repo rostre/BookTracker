@@ -8,22 +8,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.twodoors.booknotes.db.BookRepositoryImpl
 import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.ui.reading.status.ReadingStatus
+import ro.twodoors.booknotes.utils.ReadingStatus
 import ro.twodoors.booknotes.utils.getCurrentDateTime
 
-class BookDetailsViewModel(application: Application, theBook: Book) : ViewModel() {
+class BookDetailsViewModel(application: Application, selectedBook: Book) : ViewModel() {
 
     val bookRepo = BookRepositoryImpl(application)
 
-    val isFavorite : LiveData<Boolean> = bookRepo.isWishlisted(theBook.id)
+    val isFavorite : LiveData<Boolean> = bookRepo.isWishlisted(selectedBook.id)
 
-    val isAlreadySaved = bookRepo.isAlreadySaved(theBook.id)
+    val isAlreadySaved = bookRepo.isAlreadySaved(selectedBook.id)
 
     fun addBook(book: Book) = viewModelScope.launch (Dispatchers.IO){
         book.wishlist = false
         book.dateAdded = getCurrentDateTime()
         book.readingStatus = ReadingStatus.Unread
-        //book.numberOfReadPages = book.numberOfPages
         bookRepo.addBook(book)
     }
 
