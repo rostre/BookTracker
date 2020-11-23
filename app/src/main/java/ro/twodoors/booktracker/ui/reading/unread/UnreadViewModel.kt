@@ -1,4 +1,4 @@
-package ro.twodoors.booknotes.ui.reading.unread
+package ro.twodoors.booktracker.ui.reading.unread
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ro.twodoors.booknotes.db.BookRepositoryImpl
-import ro.twodoors.booknotes.model.Book
-import ro.twodoors.booknotes.utils.ReadingStatus
+import ro.twodoors.booktracker.data.local.db.BookRepositoryImpl
+import ro.twodoors.booktracker.data.local.model.Book
+import ro.twodoors.booktracker.utils.ReadingStatus
 
 class UnreadViewModel(application: Application) : ViewModel() {
 
-    private val bookRepo = BookRepositoryImpl(application)
+    private val bookRepo =
+        BookRepositoryImpl(application)
 
     val books : LiveData<List<Book>> = bookRepo.getBooksByStatus(ReadingStatus.Unread)
 
