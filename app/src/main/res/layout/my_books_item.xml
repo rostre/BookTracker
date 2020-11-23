@@ -6,7 +6,7 @@
     <data>
         <variable
             name="book"
-            type="ro.twodoors.booknotes.model.Book" />
+            type="ro.twodoors.booktracker.data.local.model.Book" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

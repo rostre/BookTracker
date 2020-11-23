@@ -6,10 +6,10 @@
     <data>
         <variable
             name="doc"
-            type="ro.twodoors.booknotes.model.Doc" />
+            type="ro.twodoors.booktracker.data.local.model.Doc" />
         <variable
             name="clickListener"
-            type="ro.twodoors.booknotes.ui.search.OnClickListener" />
+            type="ro.twodoors.booktracker.ui.search.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

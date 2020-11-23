@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="ro.twodoors.booknotes.ui.booknotes.BookNotesViewModel" />
+            type="ro.twodoors.booktracker.ui.booknotes.BookNotesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,88 +14,117 @@
         android:layout_height="match_parent"
         tools:context=".ui.booknotes.BookNotesFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lblPagesRead"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/pages_read"
+            android:layout_margin="@dimen/general_margin_16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ivBookCover"
-            android:layout_width="100dp"
-            android:layout_height="140dp"
-            android:layout_marginStart="@dimen/general_margin_16dp"
-            android:layout_marginTop="@dimen/margin_8dp"
-            android:scaleType="fitXY"
-            app:bookCover="@{viewModel.book.cover.medium}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/tvBookTitle"
+        <SeekBar
+            android:id="@+id/seekBarPages"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="@{viewModel.book.title}"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ivBookCover"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            tools:text="Master the Game" />
+            android:paddingStart="@dimen/dimen_2dp"
+            android:paddingEnd="@dimen/dimen_2dp"
+            android:max="@{viewModel.book.numberOfPages}"
+            android:progress="@{viewModel.book.numberOfReadPages}"
+            android:thumb="@drawable/custom_thumb"
+            android:progressTint="@color/thumb_color"
+            app:layout_constraintEnd_toStartOf="@+id/tvPagesRead"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPagesRead"
+            tools:progress="25"/>
 
         <TextView
-            android:id="@+id/tvBookAuthors"
-            android:layout_width="0dp"
+            android:id="@+id/tvPagesRead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/tvSeparator"
+            app:layout_constraintTop_toTopOf="@+id/tvPagesCount"
+            app:countPages="@={viewModel.book.numberOfReadPages}"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/tvSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/tvPagesCount"
+            app:layout_constraintTop_toTopOf="@+id/tvPagesCount"
+            android:text="@string/out_of" />
+
+        <TextView
+            android:id="@+id/tvPagesCount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/general_margin_16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-            app:bookAuthors="@{viewModel.book.authors}"
+            app:countPages="@{viewModel.book.numberOfPages}"
+            tools:text="250"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ivBookCover"
-            app:layout_constraintTop_toBottomOf="@+id/tvBookTitle"
-            tools:text="Tony Robbins" />
+            app:layout_constraintTop_toBottomOf="@+id/lblPagesRead" />
+
+
 
         <TextView
-            android:id="@+id/tvBookStatus"
+            android:id="@+id/lblStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/status"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBarPages" />
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textStatus="@={viewModel.book.readingStatus}"
+            tools:text="Reading"
+            android:drawableEnd="@drawable/ic_arrow_right_24"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblStatus" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1dp"
+            style="@style/DividerDetailsStyle"
+            app:layout_constraintTop_toBottomOf="@id/txtStatus"/>
+
+        <TextView
+            android:id="@+id/lblNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notes"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <TextView
+            android:id="@+id/txtNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bookNotes="@{viewModel.book.bookNotes}"
+            tools:text="Add note"
+            android:drawableEnd="@drawable/ic_arrow_right_24"
+            android:layout_margin="@dimen/general_margin_16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblNotes" />
+
+        <Button
+            android:id="@+id/btnUpdateBook"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/general_margin_16dp"
-            android:drawablePadding="@dimen/margin_8dp"
-            android:paddingStart="@dimen/margin_8dp"
-            android:paddingTop="@dimen/dimen_4dp"
-            android:paddingEnd="@dimen/margin_8dp"
-            android:paddingBottom="@dimen/dimen_4dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/ivBookCover"
-            app:layout_constraintStart_toEndOf="@+id/ivBookCover"
-            app:textStatusStyled="@{viewModel.book.readingStatus}"
-            tools:text="Reading" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_48dp"
-            android:layout_marginTop="@dimen/margin_8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivBookCover"
-            app:tabSelectedTextColor="@color/colorPrimaryDark"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:background="@color/red_favorite"
+            android:text="@string/save"
+            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

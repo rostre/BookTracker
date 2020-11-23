@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Book Notes</string>
+    <string name="app_name">Book Tracker</string>
 
     <plurals name="editions_available">
         <item quantity="one">%1$d edition available</item>
@@ -29,7 +29,14 @@
     <string name="add_note">Add note</string>
     <string name="author">Author</string>
     <string name="authors">Author(s)</string>
+    <string name="book_added_bookshelf">Book added to bookshelf</string>
+    <string name="book_added_wishlist">Book added to wishlist</string>
+    <string name="book_removed_bookshelf">Book removed from bookshelf</string>
+    <string name="book_removed_wishlist">Book removed from wishlist</string>
     <string name="books">Books</string>
+    <string name="bookshelf_count">Bookshelf (%1$d)</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_reading_status">Choose status</string>
     <string name="cover_url">https://covers.openlibrary.org/b/olid/%1$s-L.jpg?default=false</string>
     <string name="description">Description</string>
     <string name="done">done</string>
@@ -55,5 +62,6 @@
     <string name="title">Title</string>
     <string name="view_notes">View notes</string>
     <string name="wishlist">Wishlist</string>
+    <string name="wishlist_count">Wishlist (%1$d)</string>
 
 </resources>

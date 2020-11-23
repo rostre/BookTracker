@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="ro.twodoors.booknotes.ui.addbooknotes.AddBookNotesViewModel" />
+            type="ro.twodoors.booktracker.ui.addbooknotes.AddBookNotesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,23 +29,37 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:title="@string/notes"
                 style="@style/Toolbar" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <EditText
-            android:id="@+id/etNote"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/general_margin_16dp"
-            android:gravity="top"
-            android:hint="@string/enter_text"
-            android:text="@={viewModel.noteValue}"
-            android:inputType="textCapSentences"
-            android:minHeight="350dp"
-            android:background="@null"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBar" />
+            app:layout_constraintTop_toBottomOf="@+id/appBar">
+
+            <EditText
+                android:id="@+id/etNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/general_margin_16dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="@string/enter_text"
+                android:inputType="textCapSentences|textMultiLine"
+                android:minHeight="350dp"
+                android:text="@={viewModel.noteValue}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appBar"
+                tools:text="Your notes here should be displayed on multiple lines hopefully" />
+
+        </ScrollView>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

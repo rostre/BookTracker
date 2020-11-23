@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="ro.twodoors.booknotes.ui.search.SearchViewModel" />
+            type="ro.twodoors.booktracker.ui.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,6 +106,16 @@
             app:layout_constraintTop_toBottomOf="@id/input_layout"
             tools:itemCount="2"
             tools:listitem="@layout/search_item" />
+
+        <TextView
+            android:id="@+id/no_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_margin_16dp"
+            android:text="No results found"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_layout"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"
