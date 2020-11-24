@@ -10,4 +10,8 @@ The app is build with MVVM architecture and Clean Architecture Components using 
 * DataBinding (one-way and two-ways) with binding adapters
 * Paging, Retrofit2 and Picasso
 
+## Demo
+
+![Demo 1](gifs/book_tracker.gif)
+
 
